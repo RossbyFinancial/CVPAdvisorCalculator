@@ -466,6 +466,120 @@
     .mode-tab { padding: 12px 14px; font-size: 0.78rem; }
   }
 
+  /* ── PRICING-EXPLAINED CARD ── */
+  .pricing-card { margin-bottom: 20px; }
+  .pricing-card .card-head {
+    background: var(--surface);
+    color: var(--brand-purple);
+    border-bottom: 1px solid var(--line);
+  }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .pricing-col { padding: 22px 26px; }
+  .pricing-math { border-right: 1px solid var(--line); }
+  @media (max-width: 800px) {
+    .pricing-grid { grid-template-columns: 1fr; }
+    .pricing-math { border-right: none; border-bottom: 1px solid var(--line); }
+  }
+  .pricing-col h4 {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    font-weight: 700;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .pricing-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 0.88rem;
+  }
+  .pricing-line:last-of-type { border-bottom: none; }
+  .pricing-label {
+    color: var(--ink-1);
+    font-weight: 500;
+    flex: 1;
+  }
+  .pricing-label .pricing-sub {
+    display: block;
+    color: var(--ink-3);
+    font-size: 0.74rem;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  .pricing-value {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-1);
+    white-space: nowrap;
+  }
+  .pricing-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 14px 0 4px;
+    border-top: 2px solid var(--brand-purple);
+    font-weight: 800;
+    font-size: 1.05rem;
+    margin-top: 6px;
+    color: var(--brand-purple);
+  }
+  .coverage-group { margin-bottom: 22px; }
+  .coverage-group:last-child { margin-bottom: 0; }
+  .coverage-group-title {
+    font-size: 0.64rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--brand-purple);
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+  .coverage-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 18px;
+  }
+  @media (max-width: 540px) {
+    .coverage-list { grid-template-columns: 1fr; }
+  }
+  .coverage-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.84rem;
+    line-height: 1.35;
+    color: var(--ink-1);
+    font-weight: 500;
+  }
+  .coverage-list li .check-mark {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100px;
+    background: var(--rossby-light);
+    color: var(--brand-purple);
+  }
+  .coverage-list li .check-mark svg {
+    width: 11px;
+    height: 11px;
+  }
+
   /* ── PRINT STYLES ── */
   @media print {
     .no-print { display: none !important; }
@@ -713,6 +827,76 @@
       <div class="met"><div class="met-label">Profit / Account</div><div class="met-val" id="ros_perAcct"></div><span class="delta" id="ppaDelta"></span></div>
     </div>
 
+    <!-- Rossby Pricing — Explained -->
+    <div class="full">
+      <div class="section-label">Estimated Rossby Pricing</div>
+      <div class="card pricing-card">
+        <div class="card-head">How we price &mdash; and what it covers</div>
+        <div class="pricing-grid">
+          <div class="pricing-col pricing-math">
+            <h4>How we price</h4>
+            <div class="pricing-line">
+              <div class="pricing-label">
+                Base platform fee
+                <span class="pricing-sub">Flat annual</span>
+              </div>
+              <div class="pricing-value" id="pricing_base">$20,000</div>
+            </div>
+            <div class="pricing-line">
+              <div class="pricing-label">
+                Per-account fee
+                <span class="pricing-sub"><span id="pricing_accts_count">300</span> accounts &times; $<span id="pricing_per_acct">5.00</span>/mo &times; 12</span>
+              </div>
+              <div class="pricing-value" id="pricing_accts_total">$18,000</div>
+            </div>
+            <div class="pricing-line">
+              <div class="pricing-label">
+                Additional advisors
+                <span class="pricing-sub"><span id="pricing_advisors_count">3</span> beyond the owner &times; $<span id="pricing_advisor_fee">7,500</span></span>
+              </div>
+              <div class="pricing-value" id="pricing_advisors_total">$22,500</div>
+            </div>
+            <div class="pricing-total">
+              <div class="pricing-label">Annual total</div>
+              <div class="pricing-value" id="pricing_grand_total">$60,500</div>
+            </div>
+          </div>
+          <div class="pricing-col pricing-coverage">
+            <h4>What's included</h4>
+            <div class="coverage-group">
+              <div class="coverage-group-title">Platform &amp; Ongoing Services</div>
+              <ul class="coverage-list">
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Choice of top-tier custodians (incl. TAMP &amp; fee-based annuity)</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Portfolio management on BlackDiamond or Advyzon</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Investment reporting &amp; account rebalancing</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Integrated trading &amp; client portal</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Compliance oversight &amp; SEC registration</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> IAR licensing &amp; CE tracking</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> DocuSign &mdash; unlimited envelopes</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Compliant financial-planning billing (AdvicePay)</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Open-architecture integrations (CRM, planning, risk)</li>
+              </ul>
+            </div>
+            <div class="coverage-group">
+              <div class="coverage-group-title">Transition &amp; Onboarding</div>
+              <ul class="coverage-list">
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Custodial setup &amp; client account data migration</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Entitlements &amp; system-access permissions</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Licensing, registration &amp; ADV 2B preparation</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Port-All supervision &amp; books-and-records</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> ArchiveIntel &mdash; email, social, &amp; text archiving</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Base systems training for advisor &amp; staff</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Environment setup &amp; firm branding</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Fee billing &amp; client dashboard configuration</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Transition review + quarterly check-ins (year 1)</li>
+                <li><span class="check-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span> Operational liaison access</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Cost Detail Summary -->
     <div class="full">
       <div class="card" style="margin-bottom:12px;">
@@ -913,6 +1097,19 @@ function recalc() {
   setText('ros_breakeven', rossbyBE === null ? 'N/A' : rossbyBE.toLocaleString('en-US'));
   setText('ros_perAcct', fmt(rossbyPPA));
   document.getElementById('ros_perAcct').style.color = rossbyPPA >= 0 ? 'var(--ok-dark)' : 'var(--crit)';
+
+  /* Rossby Pricing — Explained card */
+  const baseFee = 20000;
+  const perAcctAnnual = accounts * rRate * 12;
+  const advisorPortion = additional * advisorRate;
+  setText('pricing_base', fmt(baseFee));
+  setText('pricing_accts_count', accounts.toLocaleString('en-US'));
+  setText('pricing_per_acct', rRate.toFixed(2));
+  setText('pricing_accts_total', fmt(perAcctAnnual));
+  setText('pricing_advisors_count', additional.toLocaleString('en-US'));
+  setText('pricing_advisor_fee', advisorRate.toLocaleString('en-US'));
+  setText('pricing_advisors_total', fmt(advisorPortion));
+  setText('pricing_grand_total', fmt(rossbyPricing));
 
   /* Deltas */
   setDelta('profitDelta', rossbyUplift, (rossbyUplift >= 0 ? '+' : '') + fmt(rossbyUplift));
