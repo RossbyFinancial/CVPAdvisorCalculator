@@ -666,7 +666,7 @@
           </div>
           <div class="fr">
             <div class="fr-label">Number of Accounts</div>
-            <input type="text" inputmode="numeric" id="accounts" data-raw="300" data-type="num" value="300" min="0">
+            <input type="text" inputmode="numeric" id="accounts" data-raw="250" data-type="num" value="250" min="0">
           </div>
           <div class="fr">
             <div class="fr-label">Advisory Assets<span class="fr-hint">Total AUM in dollars</span></div>
@@ -674,7 +674,7 @@
           </div>
           <div class="fr">
             <div class="fr-label">Advisory Basis Points<span class="fr-hint">Whole number (12 = 0.12%)</span></div>
-            <input type="text" inputmode="numeric" id="bps" data-raw="12" data-type="num" value="12" min="0">
+            <input type="text" inputmode="numeric" id="bps" data-raw="15" data-type="num" value="15" min="0">
           </div>
           <div class="fr">
             <div class="fr-label">Technology Fee<span class="fr-hint">Annual variable</span></div>
@@ -686,7 +686,7 @@
           </div>
           <div class="fr">
             <div class="fr-label">Licensed People<span class="fr-hint">Including the owner (additional advisor fees apply per person beyond the first)</span></div>
-            <input type="text" inputmode="numeric" id="licensedPeople" data-raw="4" data-type="num" value="4" min="1">
+            <input type="text" inputmode="numeric" id="licensedPeople" data-raw="1" data-type="num" value="1" min="1">
           </div>
         </div>
       </div>
@@ -705,9 +705,9 @@
           </div>
           <div class="gt-row c3 hybrid-only"><div>Commissions</div><input type="text" inputmode="decimal" id="mix_comm" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="rev_comm"></div></div>
           <div class="gt-row c3"><div>Advisory Fees</div><input type="text" inputmode="decimal" id="mix_adv" data-raw="80" data-type="pct" value="80%" min="0" max="100"><div class="cv" id="rev_adv"></div></div>
-          <div class="gt-row c3"><div>Financial Planning</div><input type="text" inputmode="decimal" id="mix_fp" data-raw="5" data-type="pct" value="5%" min="0" max="100"><div class="cv" id="rev_fp"></div></div>
+          <div class="gt-row c3"><div>Financial Planning</div><input type="text" inputmode="decimal" id="mix_fp" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="rev_fp"></div></div>
           <div class="gt-row c3 hybrid-only"><div>Misc Commissions</div><input type="text" inputmode="decimal" id="mix_misc" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="rev_misc"></div></div>
-          <div class="gt-row c3"><div>Insurance</div><input type="text" inputmode="decimal" id="mix_ins" data-raw="5" data-type="pct" value="5%" min="0" max="100"><div class="cv" id="rev_ins"></div></div>
+          <div class="gt-row c3"><div>Insurance</div><input type="text" inputmode="decimal" id="mix_ins" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="rev_ins"></div></div>
           <div class="gt-total c3">
             <div>Total</div>
             <div class="cv" id="mixTotal"></div>
@@ -732,11 +732,11 @@
             <div style="text-align:right;">Var Cost</div>
             <div style="text-align:right;">Contribution</div>
           </div>
-          <div class="gt-row c4 hybrid-only"><div>Commissions</div><input type="text" inputmode="decimal" id="vc_comm" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="vcd_comm"></div><div class="cv" id="cont_comm"></div></div>
-          <div class="gt-row c4"><div>Advisory Fees</div><input type="text" inputmode="decimal" id="vc_adv" data-raw="80" data-type="pct" value="80%" min="0" max="100"><div class="cv" id="vcd_adv"></div><div class="cv" id="cont_adv"></div></div>
-          <div class="gt-row c4"><div>Financial Planning</div><input type="text" inputmode="decimal" id="vc_fp" data-raw="5" data-type="pct" value="5%" min="0" max="100"><div class="cv" id="vcd_fp"></div><div class="cv" id="cont_fp"></div></div>
+          <div class="gt-row c4 hybrid-only"><div>Commissions</div><input type="text" inputmode="decimal" id="vc_comm" data-raw="20" data-type="pct" value="20%" min="0" max="100"><div class="cv" id="vcd_comm"></div><div class="cv" id="cont_comm"></div></div>
+          <div class="gt-row c4"><div>Advisory Fees</div><input type="text" inputmode="decimal" id="vc_adv" data-raw="70" data-type="pct" value="70%" min="0" max="100"><div class="cv" id="vcd_adv"></div><div class="cv" id="cont_adv"></div></div>
+          <div class="gt-row c4"><div>Financial Planning</div><input type="text" inputmode="decimal" id="vc_fp" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="vcd_fp"></div><div class="cv" id="cont_fp"></div></div>
           <div class="gt-row c4 hybrid-only"><div>Misc Commissions</div><input type="text" inputmode="decimal" id="vc_misc" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="vcd_misc"></div><div class="cv" id="cont_misc"></div></div>
-          <div class="gt-row c4"><div>Insurance</div><input type="text" inputmode="decimal" id="vc_ins" data-raw="5" data-type="pct" value="5%" min="0" max="100"><div class="cv" id="vcd_ins"></div><div class="cv" id="cont_ins"></div></div>
+          <div class="gt-row c4"><div>Insurance</div><input type="text" inputmode="decimal" id="vc_ins" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="vcd_ins"></div><div class="cv" id="cont_ins"></div></div>
           <div class="gt-total c4">
             <div>Total</div>
             <div></div>
@@ -1177,18 +1177,18 @@ function drawChart(currentProfit, rossbyProfit) {
 function resetAll() {
   const mode = document.body.dataset.mode || 'hybrid';
   const d = {
-    firmName:'Sample Firm', gdc:650000, payout:90, accounts:300, bps:12,
-    techFee:1300, eoCost:2500, assets:85000000, licensedPeople:4,
-    mix_comm:10, mix_adv:80, mix_fp:5, mix_misc:0, mix_ins:5,
-    vc_comm:10, vc_adv:80, vc_fp:5, vc_misc:0, vc_ins:5,
+    firmName:'Sample Firm', gdc:650000, payout:90, accounts:250, bps:15,
+    techFee:1300, eoCost:2500, assets:85000000, licensedPeople:1,
+    mix_comm:10, mix_adv:80, mix_fp:10, mix_misc:0, mix_ins:0,
+    vc_comm:20, vc_adv:70, vc_fp:10, vc_misc:0, vc_ins:0,
     fc_planning:5000, fc_crm:4000, fc_rent:18000, fc_assistant:30000,
     fc_marketing:10000, fc_compliance:8000, fc_risk:5000, fc_other:5000
   };
   if (mode === 'ria') {
     /* RIA defaults: visible mix sums to 100% across adv/fp/ins */
     d.gdc = 950000;
-    d.mix_adv = 90; d.mix_fp = 5; d.mix_ins = 5;
-    d.vc_adv  = 90; d.vc_fp  = 5; d.vc_ins  = 5;
+    d.mix_adv = 70; d.mix_fp = 30; d.mix_ins = 0;
+    d.vc_adv  = 90; d.vc_fp  = 10; d.vc_ins  = 0;
   }
   Object.keys(d).forEach(function(id) {
     var el = document.getElementById(id);
@@ -1303,7 +1303,7 @@ function setMode(newMode) {
      data-raw values so toggling back to Hybrid restores them. */
   if (newMode === 'ria' && !riaInitDone && prev !== 'ria') {
     riaInitDone = true;
-    const riaDefaults = { mix_adv: 90, mix_fp: 5, mix_ins: 5, vc_adv: 90, vc_fp: 5, vc_ins: 5 };
+    const riaDefaults = { mix_adv: 70, mix_fp: 30, mix_ins: 0, vc_adv: 90, vc_fp: 10, vc_ins: 0 };
     Object.keys(riaDefaults).forEach(function(id) {
       var el = document.getElementById(id);
       if (el) {
