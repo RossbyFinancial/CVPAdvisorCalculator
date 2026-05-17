@@ -705,9 +705,9 @@
           </div>
           <div class="gt-row c3 hybrid-only"><div>Commissions</div><input type="text" inputmode="decimal" id="mix_comm" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="rev_comm"></div></div>
           <div class="gt-row c3"><div>Advisory Fees</div><input type="text" inputmode="decimal" id="mix_adv" data-raw="80" data-type="pct" value="80%" min="0" max="100"><div class="cv" id="rev_adv"></div></div>
-          <div class="gt-row c3"><div>Financial Planning</div><input type="text" inputmode="decimal" id="mix_fp" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="rev_fp"></div></div>
+          <div class="gt-row c3"><div>Financial Planning</div><input type="text" inputmode="decimal" id="mix_fp" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="rev_fp"></div></div>
           <div class="gt-row c3 hybrid-only"><div>Misc Commissions</div><input type="text" inputmode="decimal" id="mix_misc" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="rev_misc"></div></div>
-          <div class="gt-row c3"><div>Insurance</div><input type="text" inputmode="decimal" id="mix_ins" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="rev_ins"></div></div>
+          <div class="gt-row c3"><div>Insurance</div><input type="text" inputmode="decimal" id="mix_ins" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="rev_ins"></div></div>
           <div class="gt-total c3">
             <div>Total</div>
             <div class="cv" id="mixTotal"></div>
@@ -734,9 +734,9 @@
           </div>
           <div class="gt-row c4 hybrid-only"><div>Commissions</div><input type="text" inputmode="decimal" id="vc_comm" data-raw="20" data-type="pct" value="20%" min="0" max="100"><div class="cv" id="vcd_comm"></div><div class="cv" id="cont_comm"></div></div>
           <div class="gt-row c4"><div>Advisory Fees</div><input type="text" inputmode="decimal" id="vc_adv" data-raw="70" data-type="pct" value="70%" min="0" max="100"><div class="cv" id="vcd_adv"></div><div class="cv" id="cont_adv"></div></div>
-          <div class="gt-row c4"><div>Financial Planning</div><input type="text" inputmode="decimal" id="vc_fp" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="vcd_fp"></div><div class="cv" id="cont_fp"></div></div>
+          <div class="gt-row c4"><div>Financial Planning</div><input type="text" inputmode="decimal" id="vc_fp" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="vcd_fp"></div><div class="cv" id="cont_fp"></div></div>
           <div class="gt-row c4 hybrid-only"><div>Misc Commissions</div><input type="text" inputmode="decimal" id="vc_misc" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="vcd_misc"></div><div class="cv" id="cont_misc"></div></div>
-          <div class="gt-row c4"><div>Insurance</div><input type="text" inputmode="decimal" id="vc_ins" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="vcd_ins"></div><div class="cv" id="cont_ins"></div></div>
+          <div class="gt-row c4"><div>Insurance</div><input type="text" inputmode="decimal" id="vc_ins" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="vcd_ins"></div><div class="cv" id="cont_ins"></div></div>
           <div class="gt-total c4">
             <div>Total</div>
             <div></div>
@@ -1179,8 +1179,8 @@ function resetAll() {
   const d = {
     firmName:'Sample Firm', gdc:650000, payout:90, accounts:250, bps:15,
     techFee:1300, eoCost:2500, assets:85000000, licensedPeople:1,
-    mix_comm:10, mix_adv:80, mix_fp:10, mix_misc:0, mix_ins:0,
-    vc_comm:20, vc_adv:70, vc_fp:10, vc_misc:0, vc_ins:0,
+    mix_comm:10, mix_adv:80, mix_fp:0, mix_misc:0, mix_ins:10,
+    vc_comm:20, vc_adv:70, vc_fp:0, vc_misc:0, vc_ins:10,
     fc_planning:5000, fc_crm:4000, fc_rent:18000, fc_assistant:30000,
     fc_marketing:10000, fc_compliance:8000, fc_risk:5000, fc_other:5000
   };
