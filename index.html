@@ -430,6 +430,42 @@
   .rossby-logo img { height: 28px; width: auto; display: block; }
   .hero-banner .rossby-logo img { height: 36px; }
 
+  /* ── MODE TABS (Hybrid vs RIA-Only) ── */
+  .mode-tabs {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 4px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    padding: 0 16px;
+  }
+  .mode-tab {
+    background: transparent;
+    border: none;
+    padding: 14px 26px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--ink-2);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .mode-tab:hover { color: var(--brand-purple); }
+  .mode-tab:focus { outline: none; color: var(--brand-purple); }
+  .mode-tab.active {
+    color: var(--brand-purple);
+    border-bottom-color: var(--brand-purple);
+  }
+  body[data-mode="ria"] .hybrid-only { display: none; }
+  @media (max-width: 540px) {
+    .mode-tab { padding: 12px 14px; font-size: 0.78rem; }
+  }
+
   /* ── PRINT STYLES ── */
   @media print {
     .no-print { display: none !important; }
@@ -460,7 +496,7 @@
   }
 </style>
 </head>
-<body>
+<body data-mode="hybrid">
 
 <!-- ══ HEADER ══ -->
 <div class="site-header no-print">
@@ -484,6 +520,10 @@
   <h1>Advisor Profitability Calculator</h1>
   <p>Compare your current cost structure against Rossby — all values annualized</p>
 </div>
+<nav class="mode-tabs no-print" role="tablist" aria-label="Advisor practice type">
+  <button type="button" class="mode-tab active" data-mode="hybrid" role="tab" aria-selected="true">Hybrid Advisor (BD + RIA)</button>
+  <button type="button" class="mode-tab" data-mode="ria" role="tab" aria-selected="false">RIA-Only</button>
+</nav>
 <div class="disclosure-inline">For illustrative and informational purposes only. This calculator does not constitute an offer, agreement, or guarantee of services. For Advisor Use Only — not intended for end clients. This calculator should not be used as a basis for determining client-level fees and costs.</div>
 
 <!-- ══ PAGE CONTENT ══ -->
@@ -503,10 +543,10 @@
             <input type="text" id="firmName" value="Sample Firm" style="text-align:left;">
           </div>
           <div class="fr">
-            <div class="fr-label">Gross Dealer Concession (GDC)<span class="fr-hint">Annual GDC in dollars</span></div>
+            <div class="fr-label"><span id="gdcLabel">Gross Dealer Concession (GDC)</span><span class="fr-hint" id="gdcHint">Annual GDC in dollars</span></div>
             <span class="input-dollar"><input type="text" inputmode="decimal" id="gdc" data-raw="650000" value="$650,000.00" min="0"></span>
           </div>
-          <div class="fr">
+          <div class="fr hybrid-only">
             <div class="fr-label">Payout Rate<span class="fr-hint">e.g. 90 for 90%</span></div>
             <input type="text" inputmode="decimal" id="payout" data-raw="90" data-type="pct" value="90%" min="0" max="100">
           </div>
@@ -542,17 +582,17 @@
     <div>
       <div class="section-label">Step 2 &mdash; Revenue Mix</div>
       <div class="card">
-        <div class="card-head">What % of GDC comes from each line?</div>
+        <div class="card-head" id="mixCardHead">What % of GDC comes from each line?</div>
         <div class="card-body">
           <div class="gt-head c3">
             <div>Revenue Type</div>
-            <div style="text-align:right;">% of GDC</div>
+            <div style="text-align:right;" id="mixPctHeader">% of GDC</div>
             <div style="text-align:right;">Revenue ($)</div>
           </div>
-          <div class="gt-row c3"><div>Commissions</div><input type="text" inputmode="decimal" id="mix_comm" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="rev_comm"></div></div>
+          <div class="gt-row c3 hybrid-only"><div>Commissions</div><input type="text" inputmode="decimal" id="mix_comm" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="rev_comm"></div></div>
           <div class="gt-row c3"><div>Advisory Fees</div><input type="text" inputmode="decimal" id="mix_adv" data-raw="80" data-type="pct" value="80%" min="0" max="100"><div class="cv" id="rev_adv"></div></div>
           <div class="gt-row c3"><div>Financial Planning</div><input type="text" inputmode="decimal" id="mix_fp" data-raw="5" data-type="pct" value="5%" min="0" max="100"><div class="cv" id="rev_fp"></div></div>
-          <div class="gt-row c3"><div>Misc Commissions</div><input type="text" inputmode="decimal" id="mix_misc" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="rev_misc"></div></div>
+          <div class="gt-row c3 hybrid-only"><div>Misc Commissions</div><input type="text" inputmode="decimal" id="mix_misc" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="rev_misc"></div></div>
           <div class="gt-row c3"><div>Insurance</div><input type="text" inputmode="decimal" id="mix_ins" data-raw="5" data-type="pct" value="5%" min="0" max="100"><div class="cv" id="rev_ins"></div></div>
           <div class="gt-total c3">
             <div>Total</div>
@@ -578,10 +618,10 @@
             <div style="text-align:right;">Var Cost</div>
             <div style="text-align:right;">Contribution</div>
           </div>
-          <div class="gt-row c4"><div>Commissions</div><input type="text" inputmode="decimal" id="vc_comm" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="vcd_comm"></div><div class="cv" id="cont_comm"></div></div>
+          <div class="gt-row c4 hybrid-only"><div>Commissions</div><input type="text" inputmode="decimal" id="vc_comm" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="vcd_comm"></div><div class="cv" id="cont_comm"></div></div>
           <div class="gt-row c4"><div>Advisory Fees</div><input type="text" inputmode="decimal" id="vc_adv" data-raw="80" data-type="pct" value="80%" min="0" max="100"><div class="cv" id="vcd_adv"></div><div class="cv" id="cont_adv"></div></div>
           <div class="gt-row c4"><div>Financial Planning</div><input type="text" inputmode="decimal" id="vc_fp" data-raw="5" data-type="pct" value="5%" min="0" max="100"><div class="cv" id="vcd_fp"></div><div class="cv" id="cont_fp"></div></div>
-          <div class="gt-row c4"><div>Misc Commissions</div><input type="text" inputmode="decimal" id="vc_misc" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="vcd_misc"></div><div class="cv" id="cont_misc"></div></div>
+          <div class="gt-row c4 hybrid-only"><div>Misc Commissions</div><input type="text" inputmode="decimal" id="vc_misc" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="vcd_misc"></div><div class="cv" id="cont_misc"></div></div>
           <div class="gt-row c4"><div>Insurance</div><input type="text" inputmode="decimal" id="vc_ins" data-raw="5" data-type="pct" value="5%" min="0" max="100"><div class="cv" id="vcd_ins"></div><div class="cv" id="cont_ins"></div></div>
           <div class="gt-total c4">
             <div>Total</div>
@@ -749,6 +789,9 @@ const warnSvg  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 
 /* ── Revenue/cost line keys ── */
 const LINE_KEYS = ['comm','adv','fp','misc','ins'];
+/* Visible keys in RIA-Only mode (commissions hidden; insurance kept for
+   IARs at RIAs who still write fixed insurance) */
+const RIA_KEYS = ['adv','fp','ins'];
 
 function setBadge(id, ok) {
   var el = document.getElementById(id);
@@ -769,9 +812,15 @@ function setDelta(id, value, label) {
    MAIN RECALCULATION
    ══════════════════════════════════════════ */
 function recalc() {
+  /* Read mode (Hybrid keeps full BD + RIA logic; RIA-Only zeroes payout
+     and ignores commission lines) */
+  const mode = document.body.dataset.mode || 'hybrid';
+  const activeKeys = (mode === 'ria') ? RIA_KEYS : LINE_KEYS;
+
   /* Read core inputs */
   const gdc      = getDollarVal('gdc');
   const payout   = (parseFloat(document.getElementById('payout').dataset.raw) || 0) / 100;
+  const effectivePayout = (mode === 'ria') ? 1 : payout;
   const accounts = parseFloat(document.getElementById('accounts').dataset.raw) || 0;
   const bps      = parseFloat(document.getElementById('bps').dataset.raw) || 0;
   const techFee  = getDollarVal('techFee');
@@ -779,11 +828,14 @@ function recalc() {
   const assets   = getDollarVal('assets');
   const people   = parseFloat(document.getElementById('licensedPeople').dataset.raw) || 1;
 
-  /* G11: base variable cost */
-  const baseVarCost = (gdc * (1 - payout)) + (assets * (bps / 10000));
+  /* G11: base variable cost (RIA-only drops the BD-keep term via effectivePayout=1) */
+  const baseVarCost = (gdc * (1 - effectivePayout)) + (assets * (bps / 10000));
 
   /* ── Revenue mix ── */
-  const mixes = LINE_KEYS.map(k => (parseFloat(document.getElementById('mix_'+k).dataset.raw) || 0) / 100);
+  const mixes = LINE_KEYS.map(k => {
+    if (activeKeys.indexOf(k) === -1) return 0;
+    return (parseFloat(document.getElementById('mix_'+k).dataset.raw) || 0) / 100;
+  });
   const revs  = mixes.map(m => gdc * m);
   const revTotal = revs.reduce((a,b) => a+b, 0);
   const mixTotalPct = mixes.reduce((a,b) => a+b, 0);
@@ -794,7 +846,10 @@ function recalc() {
   setBadge('mixCheck', Math.abs(mixTotalPct - 1) <= 0.000001);
 
   /* ── Variable cost attribution ── */
-  const vcs  = LINE_KEYS.map(k => (parseFloat(document.getElementById('vc_'+k).dataset.raw) || 0) / 100);
+  const vcs  = LINE_KEYS.map(k => {
+    if (activeKeys.indexOf(k) === -1) return 0;
+    return (parseFloat(document.getElementById('vc_'+k).dataset.raw) || 0) / 100;
+  });
   const vcds = vcs.map(v => baseVarCost * v);
   const vcdTotal = vcds.reduce((a,b) => a+b, 0);
 
@@ -923,6 +978,7 @@ function drawChart(currentProfit, rossbyProfit) {
 
 /* ── Reset ── */
 function resetAll() {
+  const mode = document.body.dataset.mode || 'hybrid';
   const d = {
     firmName:'Sample Firm', gdc:650000, payout:90, accounts:300, bps:12,
     techFee:1300, eoCost:2500, assets:85000000, licensedPeople:4,
@@ -931,6 +987,12 @@ function resetAll() {
     fc_planning:5000, fc_crm:4000, fc_rent:18000, fc_assistant:30000,
     fc_marketing:10000, fc_compliance:8000, fc_risk:5000, fc_other:5000
   };
+  if (mode === 'ria') {
+    /* RIA defaults: visible mix sums to 100% across adv/fp/ins */
+    d.gdc = 950000;
+    d.mix_adv = 90; d.mix_fp = 5; d.mix_ins = 5;
+    d.vc_adv  = 90; d.vc_fp  = 5; d.vc_ins  = 5;
+  }
   Object.keys(d).forEach(function(id) {
     var el = document.getElementById(id);
     if (el.dataset.raw !== undefined) {
@@ -993,6 +1055,82 @@ document.querySelectorAll('input[data-raw]').forEach(function(input) {
 document.querySelectorAll('input[type="text"]:not([data-raw])').forEach(function(input) {
   input.addEventListener('input', recalc);
 });
+
+/* ══════════════════════════════════════════
+   MODE TOGGLE (Hybrid <-> RIA-Only)
+   ══════════════════════════════════════════ */
+const MODE_LABELS = {
+  hybrid: {
+    eyebrow: 'Advisor Calculator',
+    gdcLabel: 'Gross Dealer Concession (GDC)',
+    gdcHint: 'Annual GDC in dollars',
+    mixCardHead: 'What % of GDC comes from each line?',
+    mixPctHeader: '% of GDC'
+  },
+  ria: {
+    eyebrow: 'RIA Calculator',
+    gdcLabel: 'Annual Revenue',
+    gdcHint: 'Total annual advisory & insurance revenue ($)',
+    mixCardHead: 'What % of revenue comes from each line?',
+    mixPctHeader: '% of Revenue'
+  }
+};
+
+function applyModeLabels(mode) {
+  const L = MODE_LABELS[mode] || MODE_LABELS.hybrid;
+  setText('gdcLabel', L.gdcLabel);
+  setText('gdcHint', L.gdcHint);
+  setText('mixCardHead', L.mixCardHead);
+  setText('mixPctHeader', L.mixPctHeader);
+  var eyebrow = document.querySelector('.brand-text .brand-eyebrow');
+  if (eyebrow) eyebrow.textContent = L.eyebrow;
+}
+
+let riaInitDone = false;
+function setMode(newMode) {
+  if (newMode !== 'hybrid' && newMode !== 'ria') return;
+  const prev = document.body.dataset.mode || 'hybrid';
+  document.body.dataset.mode = newMode;
+  try { localStorage.setItem('calc.mode', newMode); } catch (e) {}
+
+  document.querySelectorAll('.mode-tab').forEach(function(btn) {
+    var active = btn.dataset.mode === newMode;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  applyModeLabels(newMode);
+
+  /* First switch to RIA in this session: snap visible mix to 90/5/5 so
+     the validation badge reads green immediately. Subsequent toggles
+     leave the user's edits alone. Hidden hybrid rows keep their
+     data-raw values so toggling back to Hybrid restores them. */
+  if (newMode === 'ria' && !riaInitDone && prev !== 'ria') {
+    riaInitDone = true;
+    const riaDefaults = { mix_adv: 90, mix_fp: 5, mix_ins: 5, vc_adv: 90, vc_fp: 5, vc_ins: 5 };
+    Object.keys(riaDefaults).forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) {
+        el.dataset.raw = riaDefaults[id];
+        el.value = fmtField(el);
+      }
+    });
+  }
+
+  recalc();
+}
+
+document.querySelectorAll('.mode-tab').forEach(function(btn) {
+  btn.addEventListener('click', function() { setMode(btn.dataset.mode); });
+});
+
+/* Restore last-used mode on load */
+(function initMode() {
+  let saved = 'hybrid';
+  try { saved = localStorage.getItem('calc.mode') || 'hybrid'; } catch (e) {}
+  if (saved === 'ria') setMode('ria');
+  else applyModeLabels('hybrid');
+})();
+
 recalc();
 </script>
 <!-- ══ DISCLOSURE FOOTER ══ -->
