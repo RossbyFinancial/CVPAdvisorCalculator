@@ -687,19 +687,20 @@
   /* Warm input hover */
   input:hover { border-color: #D8CFBA; }
 
-  /* Variant A — Light Editorial */
-  .site-header { background: var(--surface); border-bottom: 1px solid var(--line); }
-  .brand-text .brand-word { color: var(--brand-navy); }
-  .brand-text .brand-eyebrow { color: var(--brand-purple); }
-  .site-header .btn-outline { background: var(--surface); color: var(--ink-2); border: 1.5px solid var(--line); }
-  .site-header .btn-outline:hover { background: var(--canvas); border-color: var(--brand-gold); color: var(--brand-purple); }
-  .site-header .btn-dark { background: var(--brand-purple); color: #fff; }
-  .site-header .btn-dark:hover { background: var(--brand-navy); }
+  /* Variant B — Navy Moment */
+  .site-header { background: var(--brand-navy); border-bottom: 1px solid var(--sb-line); }
+  .brand-block img { height: 34px; }
+  .brand-text .brand-word { color: #fff; }
+  .brand-text .brand-eyebrow { color: var(--brand-sky); }
+  .site-header .btn-outline { background: rgba(255,255,255,0.06); color: #fff; border: 1.5px solid rgba(255,255,255,0.24); }
+  .site-header .btn-outline:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.45); }
+  .site-header .btn-dark { background: #fff; color: var(--brand-navy); }
+  .site-header .btn-dark:hover { background: var(--brand-purple); color: #fff; }
 
-  .hero-banner { background: var(--canvas); color: var(--brand-navy); border-bottom: 1px solid var(--line); }
-  .hero-banner h1 { color: var(--brand-navy); }
-  .hero-banner p { color: var(--ink-2); }
-  .hero-banner::after { background: var(--brand-gold); height: 3px; width: 64px; left: 50%; right: auto; transform: translateX(-50%); }
+  .hero-banner { background: var(--brand-navy); color: #fff; }
+  .hero-banner h1 { color: #fff; }
+  .hero-banner p { color: rgba(255,255,255,0.82); }
+  .hero-banner::after { background: var(--brand-gold); height: 3px; width: 64px; left: 50%; right: auto; bottom: 0; transform: translateX(-50%); }
 </style>
 </head>
 <body data-mode="hybrid">
@@ -707,7 +708,7 @@
 <!-- ══ HEADER ══ -->
 <div class="site-header no-print">
   <div class="brand-block">
-    <img src="logos/rossby-logo.png" alt="Rossby">
+    <img src="logos/rossby-icon-white.png" alt="Rossby">
     <div class="brand-text">
       <span class="brand-word">Rossby</span>
       <span class="brand-eyebrow">Advisor Calculator</span>
