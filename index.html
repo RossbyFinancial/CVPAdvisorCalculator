@@ -5,39 +5,65 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rossby | Advisor Profitability Calculator</title>
 <link rel="icon" type="image/png" href="logos/rossby-icon-black.png">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Rossby brand palette — aligned with Port-All dashboard tokens */
-    --sb-surface: #0F0E1A;
-    --sb-surface-2: #171527;
-    --sb-line: #272338;
-    --sb-text: #C9C5DC;
-    --sb-text-mute: #8A85A6;
-    --brand-purple: #4A2E8D;
+    /* Rossby Brand Kit v2 (Maritime) */
+    /* Dark brand surfaces — navy / slate only (never generic dark) */
+    --sb-surface: #23286C;     /* navy — header / footer dark moment */
+    --sb-surface-2: #2F3441;   /* slate */
+    --sb-line: #353A82;        /* hairline on navy */
+    --sb-text: #EDEEF6;        /* text on navy */
+    --sb-text-mute: #A9ADCB;   /* muted text on navy */
+
+    /* Accent palette — used sparingly (CTAs, eyebrows, key moments) */
+    --brand-purple: #4A2E80;
     --brand-purple-light: #6E47C7;
-    --brand-plum: #7B2A76;
-    --brand-magenta: #BF0F74;
-    --brand-magenta-light: #E2237D;
-    --brand-blood-orange: #DC3E48;
-    --rossby-light: #F5EEFB;
-    --canvas: #F7F6FA;
+    --brand-navy: #23286C;
+    --brand-gold: #CBA96A;
+    --brand-terracotta: #C96B4B;
+    --brand-sky: #7FB7FF;
+    --brand-cream: #F7F3EC;
+    --brand-slate: #2F3441;
+    --brand-grey: #EFE9DD;
+    /* legacy accent names remapped to brand-safe values */
+    --brand-plum: #23286C;
+    --brand-magenta: #C96B4B;
+    --brand-magenta-light: #4A2E80;
+    --brand-blood-orange: #C96B4B;
+
+    /* 10% accent tints (icon chips / soft fills) */
+    --chip-purple: #EAE7F2;
+    --chip-gold: #F7F1E6;
+    --chip-terracotta: #F7ECE6;
+    --chip-sky: #EBF2FE;
+    --rossby-light: #EAE7F2;   /* purple chip tint */
+
+    /* Neutrals — warm light */
+    --canvas: #FDFCF8;
     --surface: #FFFFFF;
-    --ink-1: #0F1117;
-    --ink-2: #5B5B63;
-    --ink-3: #9A9AA3;
-    --line: #E8E6EC;
-    --line-soft: #F1EFF5;
-    --ok: #15945A;
-    --ok-bg: #E8F6EE;
-    --ok-dark: #0E6A41;
-    --ok-badge: #C9ECD8;
-    --warn: #C97A00;
-    --warn-bg: #FBF1DC;
-    --crit: #C8202E;
-    --crit-bg: #FCE8EA;
-    --crit-badge: #F4C5CB;
-    --crit-dark: #8A1620;
+    --ink-1: #23286C;          /* navy as primary text */
+    --ink-2: #5A5E6B;
+    --ink-3: #9A9286;
+    --line: #E4DCCB;
+    --line-soft: #F1ECE1;
+
+    /* Semantic states (brand) */
+    --ok: #0D8C52;
+    --ok-bg: #E6F4EC;
+    --ok-dark: #0A6E40;
+    --ok-badge: #C9E7D5;
+    --warn: #C68A15;
+    --warn-bg: #F8F0DC;
+    --crit: #C0392B;
+    --crit-bg: #F8E8E5;
+    --crit-badge: #EFCBC4;
+    --crit-dark: #8F2A20;
+
+    /* Typography — four families, each in its lane */
+    --font-display: "Cinzel", "Trajan Pro", Georgia, "Times New Roman", serif;
+    --font-serif:   "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --font-sans:    "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
     /* Legacy aliases retained so the rest of the stylesheet keeps working */
     --dark: var(--sb-surface);
@@ -608,6 +634,73 @@
     .chart-card { break-inside: avoid; }
     .disclosure-bar { break-inside: avoid; }
   }
+
+  /* ============================================================== */
+  /* Rossby Brand v2 — shared typography + accent overrides          */
+  /* ============================================================== */
+  body { font-family: var(--font-sans); color: var(--ink-1); }
+
+  /* Preserve logo aspect ratio (no squish) */
+  .brand-block img { width: auto; }
+
+  /* Signature headline — Cinzel caps, positive tracking */
+  .hero-banner h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 2.1rem;
+    line-height: 1.16;
+  }
+  .hero-banner p { font-family: var(--font-serif); font-size: 1.18rem; font-weight: 500; }
+  @media (max-width: 800px) {
+    .hero-banner h1 { font-size: 1.5rem; }
+    .hero-banner p { font-size: 1rem; }
+  }
+
+  /* Header brand label */
+  .brand-text .brand-word { font-weight: 800; letter-spacing: 0.01em; }
+  .brand-text .brand-eyebrow { letter-spacing: 0.16em; }
+
+  /* Eyebrow labels — purple, 0.16em tracking */
+  .section-label { color: var(--brand-purple); letter-spacing: 0.16em; }
+  .coverage-group-title { color: var(--brand-purple); }
+
+  /* Card heads — Cormorant Garamond, navy, editorial (not tiny caps) */
+  .card-head {
+    font-family: var(--font-serif);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 1.12rem;
+    font-weight: 600;
+    color: var(--brand-navy);
+  }
+  .pricing-card .card-head { color: var(--brand-purple); }
+
+  /* Chart bar — drop magenta, use maritime navy -> purple */
+  .chart-bar.rossby { background: linear-gradient(90deg, var(--brand-navy) 0%, var(--brand-purple) 100%); }
+
+  /* Results hero — recolor shadows to brand success / error */
+  .results-hero { box-shadow: 0 1px 0 rgba(35,40,108,0.04), 0 12px 28px rgba(13,140,82,0.16); }
+  .results-hero.negative { box-shadow: 0 1px 0 rgba(35,40,108,0.04), 0 12px 28px rgba(192,57,43,0.16); }
+
+  /* Warm input hover */
+  input:hover { border-color: #D8CFBA; }
+
+  /* Variant B — Navy Moment */
+  .site-header { background: var(--brand-navy); border-bottom: 1px solid var(--sb-line); }
+  .brand-block img { height: 34px; }
+  .brand-text .brand-word { color: #fff; }
+  .brand-text .brand-eyebrow { color: var(--brand-sky); }
+  .site-header .btn-outline { background: rgba(255,255,255,0.06); color: #fff; border: 1.5px solid rgba(255,255,255,0.24); }
+  .site-header .btn-outline:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.45); }
+  .site-header .btn-dark { background: #fff; color: var(--brand-navy); }
+  .site-header .btn-dark:hover { background: var(--brand-purple); color: #fff; }
+
+  .hero-banner { background: var(--brand-navy); color: #fff; }
+  .hero-banner h1 { color: #fff; }
+  .hero-banner p { color: rgba(255,255,255,0.82); }
+  .hero-banner::after { background: var(--brand-gold); height: 3px; width: 64px; left: 50%; right: auto; bottom: 0; transform: translateX(-50%); }
 </style>
 </head>
 <body data-mode="hybrid">
