@@ -701,6 +701,106 @@
   .hero-banner h1 { color: #fff; }
   .hero-banner p { color: rgba(255,255,255,0.82); }
   .hero-banner::after { background: var(--brand-gold); height: 3px; width: 64px; left: 50%; right: auto; bottom: 0; transform: translateX(-50%); }
+
+  /* ============================================================== */
+  /* Rossby Brand v2 — GOLD prominence pass                          */
+  /* Option C (cream / editorial results banner) + supporting moves  */
+  /* ============================================================== */
+  :root { --brand-gold-deep: #B8924E; }
+
+  /* ── Option C — Results "Uplift" banner ──
+     Warm cream field, gold→terracotta accent stripe, a gold pill
+     eyebrow (navy text = AA-safe), and a crisp navy headline number.
+     Gold leads, but every text layer stays legible on the light field. */
+  .results-hero {
+    background: var(--brand-cream);
+    color: var(--brand-navy);
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 0 rgba(35,40,108,0.03), 0 12px 28px rgba(35,40,108,0.08);
+    position: relative;
+    overflow: hidden;
+  }
+  .results-hero::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--brand-gold) 0%, var(--brand-terracotta) 100%);
+  }
+  .results-hero .rh-eyebrow {
+    display: inline-block;
+    background: var(--brand-gold);
+    color: var(--brand-navy);
+    opacity: 1;
+    padding: 5px 14px;
+    border-radius: 100px;
+    letter-spacing: 0.14em;
+  }
+  .results-hero .rh-amount { color: var(--brand-navy); }
+  .results-hero .rh-sub    { color: var(--ink-2); opacity: 1; }
+  .results-hero .rh-firm   { color: var(--ink-3); opacity: 1; }
+
+  /* Negative result keeps the editorial cream frame but switches the
+     accent + number to the semantic red so the sign still reads fast. */
+  .results-hero.negative {
+    background: var(--brand-cream);
+    box-shadow: 0 1px 0 rgba(35,40,108,0.03), 0 12px 28px rgba(192,57,43,0.10);
+  }
+  .results-hero.negative::before {
+    background: linear-gradient(90deg, var(--brand-terracotta) 0%, var(--crit) 100%);
+  }
+  .results-hero.negative .rh-eyebrow { background: var(--crit); color: #fff; }
+  .results-hero.negative .rh-amount  { color: var(--crit-dark); }
+
+  /* ── Suggestion 1: "With Rossby" comparison bar → navy→gold ── */
+  .chart-bar.rossby {
+    background: linear-gradient(90deg, var(--brand-navy) 0%, var(--brand-gold) 100%);
+  }
+
+  /* ── Suggestion 2: "With Rossby" card → gold accent ── */
+  .compare-card.rossby {
+    border-color: var(--brand-gold);
+    background: #FBF7EF;
+    box-shadow: 0 1px 0 rgba(35,40,108,0.02), 0 8px 22px rgba(184,146,78,0.14);
+    position: relative;
+    overflow: hidden;
+  }
+  .compare-card.rossby::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brand-purple) 0%, var(--brand-gold) 100%);
+  }
+  .compare-card.rossby h3 {
+    color: var(--brand-gold-deep);
+    border-color: rgba(184,146,78,0.22);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Suggestion 3: gold "Rossby Advantage" pill on the card ── */
+  .rossby-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--brand-navy);
+    color: var(--brand-gold);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 100px;
+    border: none;
+  }
+
+  /* ── Suggestion 4: summary / cost totals → gold rule ──
+     Cost-side totals switch from the purple rule to gold; the purple
+     2px rule stays reserved for the primary (CTA-adjacent) emphasis. */
+  .gt-total { border-top-color: var(--brand-gold); }
 </style>
 </head>
 <body data-mode="hybrid">
@@ -912,7 +1012,7 @@
       <div class="met"><div class="met-label">Profit / Account</div><div class="met-val" id="out_perAcct"></div></div>
     </div>
     <div class="compare-card rossby">
-      <h3>With Rossby</h3>
+      <h3>With Rossby <span class="rossby-pill">★ Rossby Advantage</span></h3>
       <div class="met"><div class="met-label">Total Revenue</div><div class="met-val" id="ros_revenue"></div></div>
       <div class="met"><div class="met-label">Rossby Cost</div><div class="met-val" id="ros_pricing"></div></div>
       <div class="met"><div class="met-label">Gross Profit</div><div class="met-val" id="ros_profit"></div><span class="delta" id="profitDelta"></span></div>
