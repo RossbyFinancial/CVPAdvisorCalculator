@@ -560,6 +560,50 @@
     margin-top: 6px;
     color: var(--brand-purple);
   }
+  .vc-grid { grid-template-columns: 1.5fr 0.9fr 0.8fr; gap: 10px; }
+  .vc-grid input[type="text"] { width: 100%; min-width: 0; }
+  .vc-custom { padding: 10px 0; border-bottom: 1px solid var(--line-soft); display: grid; gap: 8px; }
+  .vc-custom-top { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; }
+  .vc-custom-top input[type="text"] { width: 100%; min-width: 0; text-align: left; }
+  .vc-custom-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .vc-custom-opts label { display: grid; gap: 3px; flex: 1 1 110px; min-width: 0; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
+  .vc-custom-opts input[type="text"] { width: 100%; min-width: 0; }
+  .vc-custom-opts label.vc-line-wrap { flex-basis: 170px; }
+  @media (max-width: 540px) {
+    .vc-grid { grid-template-columns: 1.2fr 1.15fr 0.8fr; gap: 8px; }
+    .vc-grid input[type="text"] { padding: 8px; font-size: 0.82rem; }
+  }
+  .vc-custom-opts label[hidden] { display: none !important; }
+  .vc-custom select {
+    width: 100%; min-width: 0; padding: 8px 10px; border: 1.5px solid var(--line); border-radius: 8px;
+    font: inherit; font-size: 0.85rem; font-weight: 500; text-transform: none; letter-spacing: 0;
+    background: var(--surface); color: var(--ink-1);
+  }
+  .vc-remove {
+    border: none; background: none; color: var(--ink-3); font-size: 1.1rem; line-height: 1;
+    cursor: pointer; padding: 4px 6px; border-radius: 6px;
+  }
+  .vc-remove:hover { color: var(--red); background: var(--line-soft); }
+  .vc-add {
+    margin-top: 10px; padding: 8px 14px; border: 1.5px dashed var(--line); border-radius: 8px;
+    background: none; color: var(--brand-purple); font: inherit; font-size: 0.82rem; font-weight: 700; cursor: pointer;
+  }
+  .vc-add:hover { border-color: var(--brand-purple); }
+  body[data-mode="hybrid"] .ria-only { display: none; }
+  .fc-group { margin-top: 14px; padding-bottom: 4px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand-purple); border-bottom: 1px solid var(--line); }
+  .fc-tag { display: block; margin-top: 2px; font-size: 0.68rem; font-weight: 700; color: var(--ok-dark); }
+  .fc-custom-row input.fc-name { width: 100%; min-width: 0; text-align: left; }
+  .fc-custom-row { grid-template-columns: 1fr auto auto; gap: 10px; }
+  .fc-covered-row { border-bottom: none; }
+  .sub-head { margin-top: 18px; font-size: 0.78rem; font-weight: 700; color: var(--ink-1); }
+  .pricing-note {
+    font-size: 0.74rem;
+    color: var(--ink-3);
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+  .pricing-note-strong { color: var(--ink-1); font-weight: 600; }
+  .met-note { font-size: 0.72rem; color: var(--ink-3); margin-top: 4px; }
   .coverage-group { margin-bottom: 22px; }
   .coverage-group:last-child { margin-bottom: 0; }
   .coverage-group-title {
@@ -843,7 +887,7 @@
     <div>
       <div class="section-label">Step 1 &mdash; Your Practice</div>
       <div class="card">
-        <div class="card-head">Firm Details &amp; Fees</div>
+        <div class="card-head">Firm Details</div>
         <div class="card-body">
           <div class="fr">
             <div class="fr-label">Firm Name</div>
@@ -853,10 +897,6 @@
             <div class="fr-label"><span id="gdcLabel">Gross Dealer Concession (GDC)</span><span class="fr-hint" id="gdcHint">Annual GDC in dollars</span></div>
             <span class="input-dollar"><input type="text" inputmode="decimal" id="gdc" data-raw="650000" value="$650,000.00" min="0"></span>
           </div>
-          <div class="fr hybrid-only">
-            <div class="fr-label">Payout Rate<span class="fr-hint">e.g. 90 for 90%</span></div>
-            <input type="text" inputmode="decimal" id="payout" data-raw="90" data-type="pct" value="90%" min="0" max="100">
-          </div>
           <div class="fr">
             <div class="fr-label">Number of Accounts</div>
             <input type="text" inputmode="numeric" id="accounts" data-raw="250" data-type="num" value="250" min="0">
@@ -864,18 +904,6 @@
           <div class="fr">
             <div class="fr-label">Advisory Assets<span class="fr-hint">Total AUM in dollars</span></div>
             <span class="input-dollar"><input type="text" inputmode="decimal" id="assets" data-raw="85000000" value="$85,000,000.00" min="0"></span>
-          </div>
-          <div class="fr">
-            <div class="fr-label">Advisory Basis Points<span class="fr-hint">Whole number (12 = 0.12%)</span></div>
-            <input type="text" inputmode="numeric" id="bps" data-raw="15" data-type="num" value="15" min="0">
-          </div>
-          <div class="fr">
-            <div class="fr-label">Technology Fee<span class="fr-hint">Annual variable</span></div>
-            <span class="input-dollar"><input type="text" inputmode="decimal" id="techFee" data-raw="1300" value="$1,300.00" min="0"></span>
-          </div>
-          <div class="fr">
-            <div class="fr-label">E&amp;O Cost<span class="fr-hint">Annual variable</span></div>
-            <span class="input-dollar"><input type="text" inputmode="decimal" id="eoCost" data-raw="2500" value="$2,500.00" min="0"></span>
           </div>
           <div class="fr">
             <div class="fr-label">Licensed People<span class="fr-hint">Including the owner (additional advisor fees apply per person beyond the first)</span></div>
@@ -913,35 +941,64 @@
 
     <!-- ═══ ROW 2: Step 3 (left) → Step 4 (right) ═══ -->
 
-    <!-- Step 3: Variable Cost Attribution -->
+    <!-- Step 3: Costs that grow with your business (read-only, built from Step 1) -->
     <div>
-      <div class="section-label">Step 3 &mdash; Variable Cost Attribution</div>
+      <div class="section-label">Step 3 &mdash; Costs That Grow With You</div>
       <div class="card">
-        <div class="card-head">How do variable costs distribute?</div>
+        <div class="card-head">What comes out of your revenue today</div>
         <div class="card-body">
+          <div class="gt-head vc-grid">
+            <div>Cost</div>
+            <div style="text-align:right;">Rate</div>
+            <div style="text-align:right;">Per Year</div>
+          </div>
+          <div class="gt-row vc-grid">
+            <div>Payout rate<span class="fr-hint" id="vc_keepHint"></span></div>
+            <input type="text" inputmode="decimal" id="payout" data-raw="90" data-type="pct" value="90%" min="0" max="100" aria-label="Payout rate">
+            <div class="cv" id="vc_keep"></div>
+          </div>
+          <div class="gt-row vc-grid">
+            <div>Platform fee on assets<span class="fr-hint" id="vc_platformHint"></span></div>
+            <input type="text" inputmode="decimal" id="bps" data-raw="15" data-type="bps" value="15 bps" min="0" aria-label="Platform fee in basis points">
+            <div class="cv" id="vc_platform"></div>
+          </div>
+          <div class="gt-row vc-grid">
+            <div>Technology fee<span class="fr-hint">Flat $ per year; you keep paying this at Rossby</span></div>
+            <input type="text" inputmode="decimal" id="techFee" data-raw="1300" value="$1,300.00" min="0" aria-label="Technology fee">
+            <div class="cv" id="techFeeDisplay"></div>
+          </div>
+          <div class="gt-row vc-grid">
+            <div>E&amp;O insurance<span class="fr-hint">Flat $ per year; you keep paying this at Rossby</span></div>
+            <input type="text" inputmode="decimal" id="eoCost" data-raw="2500" value="$2,500.00" min="0" aria-label="E&amp;O insurance">
+            <div class="cv" id="eoDisplay"></div>
+          </div>
+          <div id="vc_custom"></div>
+          <button type="button" class="vc-add no-print" id="vc_addBtn">+ Add a variable cost</button>
+          <div class="gt-total vc-grid">
+            <div>Total<span class="fr-hint" id="vc_pctHint"></span></div>
+            <div></div>
+            <div class="cv" id="totalVarCosts"></div>
+          </div>
+          <div class="sub-head">Attributed to each revenue line</div>
           <div class="gt-head c4">
-            <div>Type</div>
-            <div style="text-align:right;">% Share</div>
+            <div>Revenue Line</div>
+            <div style="text-align:right;">Revenue</div>
             <div style="text-align:right;">Var Cost</div>
             <div style="text-align:right;">Contribution</div>
           </div>
-          <div class="gt-row c4 hybrid-only"><div>Commissions</div><input type="text" inputmode="decimal" id="vc_comm" data-raw="20" data-type="pct" value="20%" min="0" max="100"><div class="cv" id="vcd_comm"></div><div class="cv" id="cont_comm"></div></div>
-          <div class="gt-row c4"><div>Advisory Fees</div><input type="text" inputmode="decimal" id="vc_adv" data-raw="70" data-type="pct" value="70%" min="0" max="100"><div class="cv" id="vcd_adv"></div><div class="cv" id="cont_adv"></div></div>
-          <div class="gt-row c4"><div>Financial Planning</div><input type="text" inputmode="decimal" id="vc_fp" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="vcd_fp"></div><div class="cv" id="cont_fp"></div></div>
-          <div class="gt-row c4 hybrid-only"><div>Misc Commissions</div><input type="text" inputmode="decimal" id="vc_misc" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="vcd_misc"></div><div class="cv" id="cont_misc"></div></div>
-          <div class="gt-row c4"><div>Insurance</div><input type="text" inputmode="decimal" id="vc_ins" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="vcd_ins"></div><div class="cv" id="cont_ins"></div></div>
+          <div class="gt-row c4 hybrid-only"><div>Commissions</div><div class="cv" id="vrev_comm"></div><div class="cv" id="vcd_comm"></div><div class="cv"><span id="cont_comm"></span><span class="fr-hint" id="cm_comm"></span></div></div>
+          <div class="gt-row c4"><div>Advisory Fees</div><div class="cv" id="vrev_adv"></div><div class="cv" id="vcd_adv"></div><div class="cv"><span id="cont_adv"></span><span class="fr-hint" id="cm_adv"></span></div></div>
+          <div class="gt-row c4"><div>Financial Planning</div><div class="cv" id="vrev_fp"></div><div class="cv" id="vcd_fp"></div><div class="cv"><span id="cont_fp"></span><span class="fr-hint" id="cm_fp"></span></div></div>
+          <div class="gt-row c4 hybrid-only"><div>Misc Commissions</div><div class="cv" id="vrev_misc"></div><div class="cv" id="vcd_misc"></div><div class="cv"><span id="cont_misc"></span><span class="fr-hint" id="cm_misc"></span></div></div>
+          <div class="gt-row c4"><div>Insurance</div><div class="cv" id="vrev_ins"></div><div class="cv" id="vcd_ins"></div><div class="cv"><span id="cont_ins"></span><span class="fr-hint" id="cm_ins"></span></div></div>
           <div class="gt-total c4">
             <div>Total</div>
-            <div></div>
+            <div class="cv" id="vrevTotal"></div>
             <div class="cv" id="varCostTotal"></div>
-            <div class="cv" id="contTotal"></div>
+            <div class="cv"><span id="contTotal"></span><span class="fr-hint" id="cmTotal"></span></div>
           </div>
-          <div id="varCheck" class="badge ok"></div>
-        </div>
-        <div class="card-footer">
-          <div class="cf-item"><div class="cf-label">Tech Fee</div><div class="cf-value" id="techFeeDisplay"></div></div>
-          <div class="cf-item"><div class="cf-label">E&amp;O + Advisor Fees</div><div class="cf-value" id="eoDisplay"></div></div>
-          <div class="cf-item"><div class="cf-label">Total Variable Costs</div><div class="cf-value" id="totalVarCosts"></div></div>
+          <p class="pricing-note" id="cvpEmpty" hidden>Enter revenue and a revenue mix to see costs by line.</p>
+          <p class="pricing-note">Payout, technology and E&amp;O costs are shared across revenue lines by revenue; the platform fee on assets is charged to Advisory Fees. Added costs go to the line you choose. Rent, staff and other overhead go in Step 4.</p>
         </div>
       </div>
     </div>
@@ -956,18 +1013,47 @@
             <div>Expense</div>
             <div style="text-align:right;">Annual Cost ($)</div>
           </div>
-          <div class="gt-row c2"><div>Financial Planning Software</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_planning" data-raw="5000" value="$5,000.00" min="0"></span></div>
-          <div class="gt-row c2"><div>CRM</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_crm" data-raw="4000" value="$4,000.00" min="0"></span></div>
-          <div class="gt-row c2"><div>Office Rent</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_rent" data-raw="18000" value="$18,000.00" min="0"></span></div>
-          <div class="gt-row c2"><div>Assistant Support</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_assistant" data-raw="30000" value="$30,000.00" min="0"></span></div>
-          <div class="gt-row c2"><div>Marketing</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_marketing" data-raw="10000" value="$10,000.00" min="0"></span></div>
-          <div class="gt-row c2"><div>Compliance</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_compliance" data-raw="8000" value="$8,000.00" min="0"></span></div>
-          <div class="gt-row c2"><div>Risk Profiling</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_risk" data-raw="5000" value="$5,000.00" min="0"></span></div>
-          <div class="gt-row c2"><div>Other</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_other" data-raw="5000" value="$5,000.00" min="0"></span></div>
+          <div id="fc_list">
+          <div class="fc-group ria-only">Compliance &amp; regulatory</div>
+          <div class="gt-row c2 ria-only"><div>CCO / outsourced compliance<span class="fc-tag">Covered by Rossby</span></div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_compliance" class="fc-input" data-raw="40000" value="$40,000.00" min="0" data-covered="1"></span></div>
+          <div class="gt-row c2 ria-only"><div>Firm registration &amp; ADV filings<span class="fc-tag">Covered by Rossby</span></div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_registration" class="fc-input" data-raw="800" value="$800.00" min="0" data-covered="1"></span></div>
+          <div class="gt-row c2 ria-only"><div>IAR licensing fees<span class="fr-hint">Individual state &amp; IARD fees; passed through at Rossby</span></div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_iar" class="fc-input" data-raw="200" value="$200.00" min="0"></span></div>
+          <div class="gt-row c2 ria-only"><div>Email, social &amp; text archiving<span class="fc-tag">Covered by Rossby</span></div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_archiving" class="fc-input" data-raw="7500" value="$7,500.00" min="0" data-covered="1"></span></div>
+          <div class="gt-row c2 ria-only"><div>Cybersecurity program</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_cyber" class="fc-input" data-raw="6000" value="$6,000.00" min="0"></span></div>
+          <div class="fc-group ria-only">Technology</div>
+          <div class="gt-row c2 ria-only"><div>Portfolio management &amp; reporting<span class="fc-tag">Covered by Rossby</span></div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_portfolio" class="fc-input" data-raw="20000" value="$20,000.00" min="0" data-covered="1"></span></div>
+          <div class="gt-row c2"><div>CRM</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_crm" class="fc-input" data-raw="4000" value="$4,000.00" min="0"></span></div>
+          <div class="gt-row c2"><div><span class="hybrid-only">Financial Planning Software</span><span class="ria-only">Financial planning software</span></div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_planning" class="fc-input" data-raw="5000" value="$5,000.00" min="0"></span></div>
+          <div class="gt-row c2"><div><span class="hybrid-only">Risk Profiling</span><span class="ria-only">Risk profiling</span></div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_risk" class="fc-input" data-raw="5000" value="$5,000.00" min="0"></span></div>
+          <div class="gt-row c2 ria-only"><div>Billing software<span class="fc-tag">Covered by Rossby</span></div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_billing" class="fc-input" data-raw="3000" value="$3,000.00" min="0" data-covered="1"></span></div>
+          <div class="gt-row c2 ria-only"><div>E-signature<span class="fc-tag">Covered by Rossby</span></div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_esign" class="fc-input" data-raw="1000" value="$1,000.00" min="0" data-covered="1"></span></div>
+          <div class="gt-row c2 ria-only"><div>Research / model subscriptions</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_research" class="fc-input" data-raw="0" value="$0.00" min="0"></span></div>
+          <div class="fc-group ria-only">Insurance</div>
+          <div class="gt-row c2 ria-only"><div>Cyber liability insurance</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_cyberins" class="fc-input" data-raw="1500" value="$1,500.00" min="0"></span></div>
+          <div class="gt-row c2 ria-only"><div>Fidelity bond</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_bond" class="fc-input" data-raw="500" value="$500.00" min="0"></span></div>
+          <div class="gt-row c2 ria-only"><div>Additional insurance coverage</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_gl" class="fc-input" data-raw="0" value="$0.00" min="0"></span></div>
+          <div class="fc-group ria-only">Professional fees</div>
+          <div class="gt-row c2 ria-only"><div>Legal</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_legal" class="fc-input" data-raw="0" value="$0.00" min="0"></span></div>
+          <div class="gt-row c2 ria-only"><div>Accounting / CPA</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_accounting" class="fc-input" data-raw="0" value="$0.00" min="0"></span></div>
+          <div class="gt-row c2 ria-only"><div>Custody audit<span class="fc-tag">Covered by Rossby</span></div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_audit" class="fc-input" data-raw="0" value="$0.00" min="0" data-covered="1"></span></div>
+          <div class="fc-group ria-only">Office &amp; staff</div>
+          <div class="gt-row c2"><div><span class="hybrid-only">Office Rent</span><span class="ria-only">Office rent</span></div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_rent" class="fc-input" data-raw="18000" value="$18,000.00" min="0"></span></div>
+          <div class="gt-row c2"><div><span class="hybrid-only">Assistant Support</span><span class="ria-only">Operations / assistant staff</span></div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_assistant" class="fc-input" data-raw="30000" value="$30,000.00" min="0"></span></div>
+          <div class="gt-row c2 ria-only"><div>Payroll taxes &amp; benefits</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_payroll" class="fc-input" data-raw="0" value="$0.00" min="0"></span></div>
+          <div class="fc-group ria-only">Marketing</div>
+          <div class="gt-row c2 ria-only"><div>Website</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_website" class="fc-input" data-raw="0" value="$0.00" min="0"></span></div>
+          <div class="gt-row c2"><div>Marketing</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_marketing" class="fc-input" data-raw="10000" value="$10,000.00" min="0"></span></div>
+          <div class="gt-row c2 ria-only"><div>Marketing compliance review<span class="fc-tag">Covered by Rossby</span></div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_mktreview" class="fc-input" data-raw="0" value="$0.00" min="0" data-covered="1"></span></div>
+          <div class="fc-group ria-only">Other</div>
+          <div class="gt-row c2"><div>Other</div><span class="input-dollar"><input type="text" inputmode="decimal" id="fc_other" class="fc-input" data-raw="0" data-blank="1" value="" placeholder="$0.00" min="0"></span></div>
+          </div>
+          <div id="fc_custom"></div>
+          <button type="button" class="vc-add no-print" id="fc_addBtn">+ Add a fixed cost</button>
           <div class="gt-total c2">
             <div>Total Fixed Costs</div>
             <div class="cv" id="totalFixedCosts"></div>
           </div>
+          <div class="gt-row c2 fc-covered-row ria-only"><div>Covered by Rossby<span class="fr-hint">These drop off in the Rossby comparison</span></div><div class="cv" id="coveredFixedCosts"></div></div>
         </div>
       </div>
     </div>
@@ -1008,16 +1094,16 @@
       <div class="met"><div class="met-label">Total Revenue</div><div class="met-val" id="out_revenue"></div></div>
       <div class="met"><div class="met-label">Total Costs</div><div class="met-val" id="out_cost"></div></div>
       <div class="met"><div class="met-label">Gross Profit</div><div class="met-val" id="out_profit"></div></div>
-      <div class="met"><div class="met-label">Break-even Accounts</div><div class="met-val" id="out_breakeven"></div></div>
-      <div class="met"><div class="met-label">Profit / Account</div><div class="met-val" id="out_perAcct"></div></div>
+      <div class="met"><div class="met-label">Est. Net Revenue as a %</div><div class="met-val" id="out_netPct"></div></div>
+      <div class="met"><div class="met-label">Current Payout</div><div class="met-val" id="out_payout"></div></div>
     </div>
     <div class="compare-card rossby">
       <h3>With Rossby <span class="rossby-pill">★ Rossby Advantage</span></h3>
       <div class="met"><div class="met-label">Total Revenue</div><div class="met-val" id="ros_revenue"></div></div>
       <div class="met"><div class="met-label">Rossby Cost</div><div class="met-val" id="ros_pricing"></div></div>
       <div class="met"><div class="met-label">Gross Profit</div><div class="met-val" id="ros_profit"></div><span class="delta" id="profitDelta"></span></div>
-      <div class="met"><div class="met-label">Break-even Accounts</div><div class="met-val" id="ros_breakeven"></div><span class="delta" id="beDelta"></span></div>
-      <div class="met"><div class="met-label">Profit / Account</div><div class="met-val" id="ros_perAcct"></div><span class="delta" id="ppaDelta"></span></div>
+      <div class="met"><div class="met-label">Est. Net Revenue as a %</div><div class="met-val" id="ros_netPct"></div><span class="delta" id="netPctDelta"></span></div>
+      <div class="met"><div class="met-label">Payout Equivalent</div><div class="met-val" id="ros_payoutEq"></div><span class="delta" id="payoutEqDelta"></span><div class="met-note">The payout you would need today to match your profit with Rossby.</div><div class="met-note">It can exceed 100% because Rossby charges a fixed platform fee, not basis points on your clients&rsquo; assets.</div></div>
     </div>
 
     <!-- Rossby Pricing — Explained -->
@@ -1030,29 +1116,31 @@
             <h4>How we price</h4>
             <div class="pricing-line">
               <div class="pricing-label">
-                Base platform fee
+                Base access fee
                 <span class="pricing-sub">Flat annual</span>
               </div>
-              <div class="pricing-value" id="pricing_base">$20,000</div>
+              <div class="pricing-value" id="pricing_base">$25,000</div>
             </div>
             <div class="pricing-line">
               <div class="pricing-label">
-                Per-account fee
-                <span class="pricing-sub"><span id="pricing_accts_count">300</span> accounts &times; $<span id="pricing_per_acct">5.00</span>/mo &times; 12</span>
+                Data charges
+                <span class="pricing-sub"><span id="pricing_accts_count">250</span> accounts &times; $<span id="pricing_per_acct">6.30</span>/mo &times; 12</span>
               </div>
-              <div class="pricing-value" id="pricing_accts_total">$18,000</div>
+              <div class="pricing-value" id="pricing_accts_total">$18,900</div>
             </div>
             <div class="pricing-line">
               <div class="pricing-label">
                 Additional advisors
-                <span class="pricing-sub"><span id="pricing_advisors_count">3</span> beyond the owner &times; $<span id="pricing_advisor_fee">7,500</span></span>
+                <span class="pricing-sub"><span id="pricing_advisors_count">0</span> beyond the owner &times; $<span id="pricing_advisor_fee">7,500</span></span>
               </div>
-              <div class="pricing-value" id="pricing_advisors_total">$22,500</div>
+              <div class="pricing-value" id="pricing_advisors_total">$0</div>
             </div>
             <div class="pricing-total">
               <div class="pricing-label">Annual total</div>
-              <div class="pricing-value" id="pricing_grand_total">$60,500</div>
+              <div class="pricing-value" id="pricing_grand_total">$46,000</div>
             </div>
+            <p class="pricing-note">Data charges per account per month: 0&ndash;100 accounts $7.70 &middot; 101&ndash;500 $6.30 &middot; 501&ndash;1,300 $5.20 &middot; 1,301+ negotiated. Your account count sets the rate for all accounts. Additional advisors: $7,500 each (offices of 2&ndash;3 people), $6,000 each from 4 people.</p>
+            <p class="pricing-note pricing-note-strong" id="pricing_negotiated" hidden>Pricing for 1,301+ accounts is negotiated. This estimate uses the $5.00 guide rate.</p>
           </div>
           <div class="pricing-col pricing-coverage">
             <h4>What's included</h4>
@@ -1136,24 +1224,35 @@ function getDollarVal(id) {
   return el && el.dataset.raw !== undefined ? parseFloat(el.dataset.raw) || 0 : (+el.value || 0);
 }
 
-/* ── Lookup tables (match spreadsheet exactly) ── */
-function rossbyPerAccountRate(a) {
-  if (a >= 10001) return 0.75;
-  if (a >= 5501)  return 1;
-  if (a >= 3401)  return 2;
-  if (a >= 2101)  return 3;
-  if (a >= 1301)  return 4;
-  if (a >= 501)   return 5;
-  if (a >= 101)   return 6;
-  return 7;
+/* ── Rossby 2027 pricing (source: Rossby_Pricing_Sandbox_v4, Pricing tab) ──
+   Edit rates here only. Annual fee = base access fee
+   + all accounts x data charge x 12 + additional-person fees.
+   The tier an office reaches sets the rate for ALL of its accounts / people.
+   `from` values must go up row to row. */
+const ROSSBY_PRICING = {
+  baseAccessFee: 25000,
+  /* $ per account per month, by account count */
+  dataCharges: [
+    { from: 0,    rate: 7.70 },
+    { from: 101,  rate: 6.30 },
+    { from: 501,  rate: 5.20 },
+    { from: 1301, rate: 5.00 }   // 1,301+ is negotiated; $5.00 is the guide rate
+  ],
+  negotiatedFrom: 1301,
+  /* $ per year for each licensed person after the owner, by total licensed people */
+  additionalPersonFees: [
+    { from: 1, rate: 7500 },
+    { from: 4, rate: 6000 }
+  ]
+};
+
+function tierRate(tiers, n) {
+  let rate = tiers[0].rate;
+  tiers.forEach(t => { if (n >= t.from) rate = t.rate; });
+  return rate;
 }
-function additionalAdvisorFee(p) {
-  if (p >= 14) return 1000;
-  if (p >= 9)  return 1500;
-  if (p >= 6)  return 2500;
-  if (p >= 4)  return 5000;
-  return 7500;
-}
+function rossbyPerAccountRate(a) { return tierRate(ROSSBY_PRICING.dataCharges, a); }
+function additionalAdvisorFee(p) { return tierRate(ROSSBY_PRICING.additionalPersonFees, p); }
 
 /* ── Safe DOM setter ── */
 function setText(id, text) {
@@ -1169,6 +1268,32 @@ const LINE_KEYS = ['comm','adv','fp','misc','ins'];
 /* Visible keys in RIA-Only mode (commissions hidden; insurance kept for
    IARs at RIAs who still write fixed insurance) */
 const RIA_KEYS = ['adv','fp','ins'];
+const LINE_NAMES = { comm:'Commissions', adv:'Advisory Fees', fp:'Financial Planning', misc:'Misc Commissions', ins:'Insurance' };
+
+/* ── Advisor-added variable costs (Step 3) ──
+   Each cost has a type that sets how it scales, and the revenue line it is
+   charged to ('all' = shared by revenue). */
+const VC_TYPES = {
+  bps:   { label:'bps on assets',   rateType:'bps',    defaultLine:'adv' },
+  acct:  { label:'$ per account',   rateType:'dollar', defaultLine:'all' },
+  pct:   { label:'% of revenue',    rateType:'pct',    defaultLine:'all' },
+  trade: { label:'$ per trade',     rateType:'dollar', defaultLine:'adv' },
+  flat:  { label:'Flat $ per year', rateType:'dollar', defaultLine:'all' }
+};
+let customCosts = [];
+let customFixed = [];
+let customCostSeq = 0;
+
+/* Annual dollar amount of one added cost */
+function customCostAmount(c, ctx) {
+  switch (c.type) {
+    case 'bps':   return ctx.assets * c.rate / 10000;
+    case 'acct':  return ctx.accounts * c.rate;
+    case 'pct':   return (c.line === 'all' ? ctx.gdc : ctx.lineRev(c.line)) * c.rate / 100;
+    case 'trade': return c.trades * c.rate;
+    default:      return c.rate;
+  }
+}
 
 function setBadge(id, ok) {
   var el = document.getElementById(id);
@@ -1189,24 +1314,20 @@ function setDelta(id, value, label) {
    MAIN RECALCULATION
    ══════════════════════════════════════════ */
 function recalc() {
-  /* Read mode (Hybrid keeps full BD + RIA logic; RIA-Only zeroes payout
-     and ignores commission lines) */
+  /* Read mode (Hybrid keeps full BD + RIA logic; RIA-Only ignores commission lines) */
   const mode = document.body.dataset.mode || 'hybrid';
   const activeKeys = (mode === 'ria') ? RIA_KEYS : LINE_KEYS;
 
   /* Read core inputs */
   const gdc      = getDollarVal('gdc');
   const payout   = (parseFloat(document.getElementById('payout').dataset.raw) || 0) / 100;
-  const effectivePayout = (mode === 'ria') ? 1 : payout;
+  const effectivePayout = payout;
   const accounts = parseFloat(document.getElementById('accounts').dataset.raw) || 0;
   const bps      = parseFloat(document.getElementById('bps').dataset.raw) || 0;
   const techFee  = getDollarVal('techFee');
   const eoCost   = getDollarVal('eoCost');
   const assets   = getDollarVal('assets');
   const people   = parseFloat(document.getElementById('licensedPeople').dataset.raw) || 1;
-
-  /* G11: base variable cost (RIA-only drops the BD-keep term via effectivePayout=1) */
-  const baseVarCost = (gdc * (1 - effectivePayout)) + (assets * (bps / 10000));
 
   /* ── Revenue mix ── */
   const mixes = LINE_KEYS.map(k => {
@@ -1222,80 +1343,119 @@ function recalc() {
   setText('mixTotal', Math.round(mixTotalPct * 100) + '%');
   setBadge('mixCheck', Math.abs(mixTotalPct - 1) <= 0.000001);
 
-  /* ── Variable cost attribution ── */
-  const vcs  = LINE_KEYS.map(k => {
-    if (activeKeys.indexOf(k) === -1) return 0;
-    return (parseFloat(document.getElementById('vc_'+k).dataset.raw) || 0) / 100;
-  });
-  const vcds = vcs.map(v => baseVarCost * v);
-  const vcdTotal = vcds.reduce((a,b) => a+b, 0);
-
-  LINE_KEYS.forEach((k, i) => {
-    setText('vcd_'+k,  fmt(vcds[i]));
-    setText('cont_'+k, fmt(revs[i] - vcds[i]));
-  });
-  setText('varCostTotal', fmt(vcdTotal));
-  setText('contTotal', fmt(revTotal - vcdTotal));
-
-  const varTotalPct = vcs.reduce((a,b) => a+b, 0);
-  setBadge('varCheck', Math.abs(varTotalPct - 1) <= 0.000001);
+  /* ── Costs that grow with the business (Step 3, read-only) ── */
+  const keepCost     = gdc * (1 - effectivePayout);
+  const platformCost = assets * (bps / 10000);
+  const vcdTotal     = keepCost + platformCost;
+  setText('vc_keepHint', mode === 'ria'
+    ? 'Standalone RIA: usually 100%. Firm costs go in Step 4'
+    : 'Your broker-dealer keeps ' + fmtPct(1 - effectivePayout));
+  setText('vc_keep', fmt(keepCost));
+  setText('vc_platformHint', bps + ' bps on ' + fmt(assets) + ' in assets');
+  setText('vc_platform', fmt(platformCost));
 
   /* ── Additional fees ── */
   setText('techFeeDisplay', fmt(techFee));
 
   const additional   = Math.max(people - 1, 0);
   const advisorRate  = additionalAdvisorFee(people);
-  const eoAdditional = eoCost + (additional * advisorRate);
-  setText('eoDisplay', fmt(eoAdditional));
+  setText('eoDisplay', fmt(eoCost));
 
-  /* ── Totals ── */
-  const totalVarCosts = vcdTotal + techFee + eoAdditional;
+  /* ── Advisor-added variable costs ── */
+  const lineRev = k => { const i = LINE_KEYS.indexOf(k); return i >= 0 ? revs[i] : 0; };
+  const customAmts = customCosts.map(c => {
+    /* A line hidden in this mode falls back to sharing by revenue */
+    const line = (c.line !== 'all' && activeKeys.indexOf(c.line) === -1) ? 'all' : c.line;
+    const amt = customCostAmount(Object.assign({}, c, { line: line }), { gdc, assets, accounts, lineRev });
+    setText('vc_amt_' + c.id, fmt(amt));
+    return { line: line, amt: amt };
+  });
+  const customTotal = customAmts.reduce((a, c) => a + c.amt, 0);
+
+  /* ── Totals (Rossby's per-person fee is a Rossby cost only, not a current cost) ── */
+  const totalVarCosts = vcdTotal + techFee + eoCost + customTotal;
   setText('totalVarCosts', fmt(totalVarCosts));
+  setText('vc_pctHint', gdc > 0 ? fmtPct(totalVarCosts / gdc) + ' of revenue' : '');
+
+  /* ── CVP attribution by revenue line ──
+     Payout keep, tech and E&O follow each line's share of revenue; the
+     platform fee on assets belongs to Advisory Fees (spread by revenue if
+     there is no advisory revenue). Added costs go to the line chosen. */
+  const advIdx = LINE_KEYS.indexOf('adv');
+  const sharedCost = keepCost + techFee + eoCost
+    + customAmts.filter(c => c.line === 'all').reduce((a, c) => a + c.amt, 0);
+  const lineVar = revs.map((rev, i) => {
+    const share = revTotal > 0 ? rev / revTotal : 0;
+    const platformShare = revs[advIdx] > 0 ? (i === advIdx ? 1 : 0) : share;
+    const direct = customAmts.filter(c => c.line === LINE_KEYS[i]).reduce((a, c) => a + c.amt, 0);
+    return sharedCost * share + platformCost * platformShare + direct;
+  });
+  LINE_KEYS.forEach((k, i) => {
+    const cont = revs[i] - lineVar[i];
+    setText('vrev_'+k, fmt(revs[i]));
+    setText('vcd_'+k,  fmt(lineVar[i]));
+    setText('cont_'+k, fmt(cont));
+    setText('cm_'+k, revs[i] > 0 ? fmtPct(cont / revs[i]) + ' margin' : '');
+  });
+  const lineVarTotal = lineVar.reduce((a,b) => a+b, 0);
+  setText('vrevTotal', fmt(revTotal));
+  setText('varCostTotal', fmt(lineVarTotal));
+  setText('contTotal', fmt(revTotal - lineVarTotal));
+  document.getElementById('cvpEmpty').hidden = revTotal > 0;
+  setText('cmTotal', revTotal > 0 ? fmtPct((revTotal - lineVarTotal) / revTotal) + ' margin' : '');
 
   const contAfterVar = gdc - totalVarCosts;
 
   /* ── Fixed costs ── */
-  const fcIds = ['fc_planning','fc_crm','fc_rent','fc_assistant','fc_marketing','fc_compliance','fc_risk','fc_other'];
-  let totalFixed = 0;
-  fcIds.forEach(id => { totalFixed += getDollarVal(id); });
+  /* Lines hidden in this mode don't count; covered lines drop off on the Rossby side */
+  let totalFixed = 0, coveredFixed = 0;
+  document.querySelectorAll('#fc_list .fc-input').forEach(function(el) {
+    if (mode !== 'ria' && el.closest('.ria-only')) return;
+    const v = parseFloat(el.dataset.raw) || 0;
+    totalFixed += v;
+    if (el.dataset.covered) coveredFixed += v;
+  });
+  customFixed.forEach(function(c) { totalFixed += c.amount; });
   setText('totalFixedCosts', fmt(totalFixed));
+  setText('coveredFixedCosts', fmt(coveredFixed));
 
   /* ── Section 4 outputs ── */
   const totalRev      = gdc;
   const totalCost     = totalVarCosts + totalFixed;
   const grossProfit   = totalRev - totalCost;
-  const breakeven     = (totalRev - totalVarCosts) <= 0 ? null : Math.ceil((totalFixed * accounts) / (totalRev - totalVarCosts));
-  const profitPerAcct = accounts === 0 ? 0 : grossProfit / accounts;
+  /* Net revenue margin = gross profit as a share of GDC */
+  const netPct        = totalRev === 0 ? 0 : grossProfit / totalRev;
 
   setText('out_revenue', fmt(totalRev));
   setText('out_cost', fmt(totalCost));
   setText('out_profit', fmt(grossProfit));
   document.getElementById('out_profit').className = 'met-val ' + (grossProfit >= 0 ? 'pos' : 'neg');
-  setText('out_breakeven', breakeven === null ? 'N/A' : breakeven.toLocaleString('en-US'));
-  setText('out_perAcct', fmt(profitPerAcct));
+  setText('out_netPct', fmtPct(netPct));
 
   /* ── Section 5: Rossby ── */
   const rRate         = rossbyPerAccountRate(accounts);
-  const rossbyPricing = 20000 + (accounts * rRate * 12) + (additional * advisorRate);
-  const rossbyGP      = totalRev - (rossbyPricing + totalFixed);
-  const rossbyUplift  = totalCost - (rossbyPricing + totalFixed);
+  const baseFee        = ROSSBY_PRICING.baseAccessFee;
+  const perAcctAnnual  = accounts * rRate * 12;
+  const advisorPortion = additional * advisorRate;
+  const rossbyPricing  = baseFee + perAcctAnnual + advisorPortion;
+  const rossbyFixed   = totalFixed - coveredFixed;
+  /* Tech fee and E&O stay with the advisor at Rossby; other current variable costs drop off */
+  const advisorKeeps  = techFee + eoCost;
+  const rossbyGP      = totalRev - (rossbyPricing + rossbyFixed + advisorKeeps);
+  const rossbyUplift  = totalCost - (rossbyPricing + rossbyFixed + advisorKeeps);
   const pctIncrease   = grossProfit === 0 ? 0 : rossbyUplift / grossProfit;
-  const rossbyBE      = (totalRev - rossbyPricing) <= 0 ? null : Math.ceil((totalFixed * accounts) / (totalRev - rossbyPricing));
-  const rossbyPPA     = accounts === 0 ? 0 : rossbyGP / accounts;
+  const rossbyNetPct  = totalRev === 0 ? 0 : rossbyGP / totalRev;
 
   setText('ros_revenue', fmt(totalRev));
   setText('ros_pricing', fmt(rossbyPricing));
   setText('ros_profit', fmt(rossbyGP));
   document.getElementById('ros_profit').className = 'met-val ' + (rossbyGP >= 0 ? 'pos' : 'neg');
-  setText('ros_breakeven', rossbyBE === null ? 'N/A' : rossbyBE.toLocaleString('en-US'));
-  setText('ros_perAcct', fmt(rossbyPPA));
-  document.getElementById('ros_perAcct').style.color = rossbyPPA >= 0 ? 'var(--ok-dark)' : 'var(--crit)';
+  setText('ros_netPct', fmtPct(rossbyNetPct));
+  document.getElementById('ros_netPct').style.color = rossbyGP >= 0 ? 'var(--ok-dark)' : 'var(--crit)';
 
   /* Rossby Pricing — Explained card */
-  const baseFee = 20000;
-  const perAcctAnnual = accounts * rRate * 12;
-  const advisorPortion = additional * advisorRate;
   setText('pricing_base', fmt(baseFee));
+  document.getElementById('pricing_negotiated').hidden = accounts < ROSSBY_PRICING.negotiatedFrom;
   setText('pricing_accts_count', accounts.toLocaleString('en-US'));
   setText('pricing_per_acct', rRate.toFixed(2));
   setText('pricing_accts_total', fmt(perAcctAnnual));
@@ -1306,14 +1466,22 @@ function recalc() {
 
   /* Deltas */
   setDelta('profitDelta', rossbyUplift, (rossbyUplift >= 0 ? '+' : '') + fmt(rossbyUplift));
-  if (breakeven === null || rossbyBE === null) {
-    setDelta('beDelta', 0, 'N/A');
+  /* Payout equivalent: the payout at the current firm that would produce the
+     same gross profit as Rossby, holding every other current cost constant.
+     Solves GP(p) = rossbyGP, where GP(p) = GDC*p - AUM*bps - tech - E&O - added costs - fixed. */
+  setText('out_payout', fmtPct(effectivePayout));
+  if (gdc <= 0) {
+    setText('ros_payoutEq', 'N/A');
+    setDelta('payoutEqDelta', 0, 'N/A');
   } else {
-    const beDiff = breakeven - rossbyBE;
-    setDelta('beDelta', beDiff, beDiff > 0 ? beDiff + ' fewer' : beDiff < 0 ? Math.abs(beDiff) + ' more' : 'Same');
+    const payoutEq = (platformCost + techFee + eoCost + customTotal + totalFixed + rossbyGP) / gdc;
+    setText('ros_payoutEq', fmtPct(payoutEq));
+    const eqDiff = (payoutEq - effectivePayout) * 100;
+    setDelta('payoutEqDelta', eqDiff, (eqDiff >= 0 ? '+' : '') + eqDiff.toFixed(1) + ' pts vs. today');
   }
-  const ppaDiff = rossbyPPA - profitPerAcct;
-  setDelta('ppaDelta', ppaDiff, (ppaDiff >= 0 ? '+' : '') + fmt(ppaDiff));
+  const pctDiff = (rossbyNetPct - netPct) * 100;
+  setDelta('netPctDelta', pctDiff, (pctDiff >= 0 ? '+' : '') + pctDiff.toFixed(1) + ' pts');
+
 
   /* Uplift hero */
   setText('upliftAmount', (rossbyUplift >= 0 ? '+' : '') + fmt(rossbyUplift));
@@ -1326,6 +1494,10 @@ function recalc() {
     setText('upliftSub', 'Additional cost vs. current break-even');
   } else if (grossProfit === 0) {
     setText('upliftSub', 'No change from current break-even');
+  } else if (grossProfit < 0 && rossbyUplift > 0) {
+    setText('upliftSub', rossbyGP >= 0 ? 'Turns a current loss into a profit' : 'Reduces your current loss');
+  } else if (grossProfit < 0) {
+    setText('upliftSub', 'Increases your current loss');
   } else if (rossbyUplift >= 0) {
     setText('upliftSub', 'That\u2019s a ' + fmtPct(pctIncrease) + ' increase in profit');
   } else {
@@ -1373,16 +1545,21 @@ function resetAll() {
     firmName:'Sample Firm', gdc:650000, payout:90, accounts:250, bps:15,
     techFee:1300, eoCost:2500, assets:85000000, licensedPeople:1,
     mix_comm:10, mix_adv:80, mix_fp:0, mix_misc:0, mix_ins:10,
-    vc_comm:20, vc_adv:70, vc_fp:0, vc_misc:0, vc_ins:10,
     fc_planning:5000, fc_crm:4000, fc_rent:18000, fc_assistant:30000,
-    fc_marketing:10000, fc_compliance:8000, fc_risk:5000, fc_other:5000
+    fc_marketing:10000, fc_compliance:40000, fc_risk:5000, fc_other:0,
+    fc_registration:800, fc_iar:200, fc_archiving:7500, fc_cyber:6000, fc_portfolio:20000, fc_billing:3000, fc_esign:1000, fc_research:0, fc_cyberins:1500, fc_bond:500, fc_gl:0, fc_legal:0, fc_accounting:0, fc_audit:0, fc_payroll:0, fc_website:0, fc_mktreview:0
   };
   if (mode === 'ria') {
-    /* RIA defaults: visible mix sums to 100% across adv/fp/ins */
     d.gdc = 950000;
-    d.mix_adv = 70; d.mix_fp = 30; d.mix_ins = 0;
-    d.vc_adv  = 90; d.vc_fp  = 10; d.vc_ins  = 0;
+    Object.assign(d, MODE_DEFAULTS.ria);
   }
+  /* Reset the other tab too, so it opens on its own sample */
+  const other = (mode === 'ria') ? 'hybrid' : 'ria';
+  modeState[other] = Object.assign({ gdc: other === 'ria' ? 950000 : 650000 }, MODE_DEFAULTS[other]);
+  customCosts = [];
+  renderCustomCosts();
+  customFixed = [];
+  renderCustomFixed();
   Object.keys(d).forEach(function(id) {
     var el = document.getElementById(id);
     if (el.dataset.raw !== undefined) {
@@ -1414,13 +1591,15 @@ function parseNum(str) {
 function fmtField(input) {
   var val = parseFloat(input.dataset.raw) || 0;
   var type = input.dataset.type;
+  if (input.dataset.blank && val === 0) return '';
   if (type === 'pct') return val + '%';
   if (type === 'num') return Math.round(val).toLocaleString('en-US');
+  if (type === 'bps') return val + ' bps';
   return fmtUSD(val); /* dollar */
 }
 
-/* All formatted inputs (dollar, pct, num) */
-document.querySelectorAll('input[data-raw]').forEach(function(input) {
+/* All formatted inputs (dollar, pct, num, bps) */
+function bindFormatted(input) {
   input.addEventListener('focus', function() {
     input.value = input.dataset.raw;
     input.select();
@@ -1439,6 +1618,110 @@ document.querySelectorAll('input[data-raw]').forEach(function(input) {
     input.value = fmtField(input);
     recalc();
   });
+}
+document.querySelectorAll('input[data-raw]').forEach(bindFormatted);
+
+/* ── Added variable cost rows ── */
+function escAttr(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+}
+function renderCustomCosts() {
+  const mode = document.body.dataset.mode || 'hybrid';
+  const keys = (mode === 'ria') ? RIA_KEYS : LINE_KEYS;
+  const box = document.getElementById('vc_custom');
+  box.innerHTML = customCosts.map(function(c) {
+    const typeOpts = Object.keys(VC_TYPES).map(function(t) {
+      return '<option value="' + t + '"' + (t === c.type ? ' selected' : '') + '>' + VC_TYPES[t].label + '</option>';
+    }).join('');
+    const line = (c.line !== 'all' && keys.indexOf(c.line) === -1) ? 'all' : c.line;
+    const lineOpts = '<option value="all"' + (line === 'all' ? ' selected' : '') + '>All lines (by revenue)</option>' +
+      keys.map(function(k) {
+        return '<option value="' + k + '"' + (k === line ? ' selected' : '') + '>' + LINE_NAMES[k] + '</option>';
+      }).join('');
+    return '<div class="vc-custom" data-id="' + c.id + '">' +
+      '<div class="vc-custom-top">' +
+        '<input type="text" class="vc-name" value="' + escAttr(c.name) + '" placeholder="Name, e.g. BlackDiamond" aria-label="Cost name">' +
+        '<div class="cv" id="vc_amt_' + c.id + '"></div>' +
+        '<button type="button" class="vc-remove no-print" aria-label="Remove this cost">&times;</button>' +
+      '</div>' +
+      '<div class="vc-custom-opts">' +
+        '<label>Type<select class="vc-type">' + typeOpts + '</select></label>' +
+        '<label>Rate<input type="text" inputmode="decimal" class="vc-rate" data-type="' + VC_TYPES[c.type].rateType + '" data-raw="' + c.rate + '" min="0"' +
+          (c.type === 'pct' ? ' max="100"' : '') + '></label>' +
+        '<label' + (c.type === 'trade' ? '' : ' hidden') + '>Trades / yr<input type="text" inputmode="numeric" class="vc-trades" data-type="num" data-raw="' + c.trades + '" min="0"></label>' +
+        '<label class="vc-line-wrap">Applies to<select class="vc-line">' + lineOpts + '</select></label>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  box.querySelectorAll('.vc-custom').forEach(function(row) {
+    const c = customCosts.find(function(x) { return x.id === +row.dataset.id; });
+    row.querySelectorAll('input[data-raw]').forEach(function(input) {
+      input.value = fmtField(input);
+      bindFormatted(input);
+      input.addEventListener('input', function() {
+        c[input.classList.contains('vc-rate') ? 'rate' : 'trades'] = parseFloat(input.dataset.raw) || 0;
+        recalc();
+      });
+      input.addEventListener('blur', function() {
+        c[input.classList.contains('vc-rate') ? 'rate' : 'trades'] = parseFloat(input.dataset.raw) || 0;
+        recalc();
+      });
+    });
+    row.querySelector('.vc-name').addEventListener('input', function(e) { c.name = e.target.value; });
+    row.querySelector('.vc-type').addEventListener('change', function(e) {
+      c.type = e.target.value;
+      c.rate = 0;
+      c.line = VC_TYPES[c.type].defaultLine;
+      renderCustomCosts();
+      recalc();
+    });
+    row.querySelector('.vc-line').addEventListener('change', function(e) { c.line = e.target.value; recalc(); });
+    row.querySelector('.vc-remove').addEventListener('click', function() {
+      customCosts = customCosts.filter(function(x) { return x !== c; });
+      renderCustomCosts();
+      recalc();
+    });
+  });
+}
+function renderCustomFixed() {
+  const box = document.getElementById('fc_custom');
+  box.innerHTML = customFixed.map(function(c) {
+    return '<div class="gt-row fc-custom-row" data-id="' + c.id + '">' +
+      '<input type="text" class="fc-name" value="' + escAttr(c.name) + '" placeholder="Name of cost" aria-label="Fixed cost name">' +
+      '<span class="input-dollar"><input type="text" inputmode="decimal" class="fc-amt" data-raw="' + c.amount + '" min="0" aria-label="Annual cost"></span>' +
+      '<button type="button" class="vc-remove no-print" aria-label="Remove this cost">&times;</button>' +
+    '</div>';
+  }).join('');
+  box.querySelectorAll('.fc-custom-row').forEach(function(row) {
+    const c = customFixed.find(function(x) { return x.id === +row.dataset.id; });
+    const amt = row.querySelector('.fc-amt');
+    amt.value = fmtField(amt);
+    bindFormatted(amt);
+    ['input','blur'].forEach(function(ev) {
+      amt.addEventListener(ev, function() { c.amount = parseFloat(amt.dataset.raw) || 0; recalc(); });
+    });
+    row.querySelector('.fc-name').addEventListener('input', function(e) { c.name = e.target.value; });
+    row.querySelector('.vc-remove').addEventListener('click', function() {
+      customFixed = customFixed.filter(function(x) { return x !== c; });
+      renderCustomFixed();
+      recalc();
+    });
+  });
+}
+document.getElementById('fc_addBtn').addEventListener('click', function() {
+  customFixed.push({ id: ++customCostSeq, name: '', amount: 0 });
+  renderCustomFixed();
+  recalc();
+  const rows = document.querySelectorAll('#fc_custom .fc-name');
+  if (rows.length) rows[rows.length - 1].focus();
+});
+document.getElementById('vc_addBtn').addEventListener('click', function() {
+  customCosts.push({ id: ++customCostSeq, name: '', type: 'bps', rate: 0, trades: 0, line: VC_TYPES.bps.defaultLine });
+  renderCustomCosts();
+  recalc();
+  const rows = document.querySelectorAll('#vc_custom .vc-name');
+  if (rows.length) rows[rows.length - 1].focus();
 });
 
 /* Plain text inputs (firm name) */
@@ -1476,10 +1759,34 @@ function applyModeLabels(mode) {
   if (eyebrow) eyebrow.textContent = L.eyebrow;
 }
 
-let riaInitDone = false;
+/* Each tab keeps its own revenue, payout and revenue mix, so editing or
+   resetting one tab never changes the other. A tab's first visit starts
+   from its defaults and carries over the current revenue. */
+const MODE_FIELDS = ['gdc','payout','mix_comm','mix_adv','mix_fp','mix_misc','mix_ins'];
+const MODE_DEFAULTS = {
+  hybrid: { payout: 90,  mix_comm: 10, mix_adv: 80, mix_fp: 0,  mix_misc: 0, mix_ins: 10 },
+  ria:    { payout: 100, mix_comm: 0,  mix_adv: 70, mix_fp: 30, mix_misc: 0, mix_ins: 0 }
+};
+const modeState = { hybrid: null, ria: null };
+function readModeFields() {
+  const out = {};
+  MODE_FIELDS.forEach(function(id) { out[id] = parseFloat(document.getElementById(id).dataset.raw) || 0; });
+  return out;
+}
+function writeModeFields(vals) {
+  Object.keys(vals).forEach(function(id) {
+    const el = document.getElementById(id);
+    el.dataset.raw = vals[id];
+    el.value = fmtField(el);
+  });
+}
 function setMode(newMode) {
   if (newMode !== 'hybrid' && newMode !== 'ria') return;
   const prev = document.body.dataset.mode || 'hybrid';
+  if (prev !== newMode) {
+    modeState[prev] = readModeFields();
+    writeModeFields(modeState[newMode] || MODE_DEFAULTS[newMode]);
+  }
   document.body.dataset.mode = newMode;
   try { localStorage.setItem('calc.mode', newMode); } catch (e) {}
 
@@ -1489,23 +1796,7 @@ function setMode(newMode) {
     btn.setAttribute('aria-selected', active ? 'true' : 'false');
   });
   applyModeLabels(newMode);
-
-  /* First switch to RIA in this session: snap visible mix to 90/5/5 so
-     the validation badge reads green immediately. Subsequent toggles
-     leave the user's edits alone. Hidden hybrid rows keep their
-     data-raw values so toggling back to Hybrid restores them. */
-  if (newMode === 'ria' && !riaInitDone && prev !== 'ria') {
-    riaInitDone = true;
-    const riaDefaults = { mix_adv: 70, mix_fp: 30, mix_ins: 0, vc_adv: 90, vc_fp: 10, vc_ins: 0 };
-    Object.keys(riaDefaults).forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) {
-        el.dataset.raw = riaDefaults[id];
-        el.value = fmtField(el);
-      }
-    });
-  }
-
+  renderCustomCosts();
   recalc();
 }
 
