@@ -859,13 +859,89 @@
   .btn-gold { background: var(--brand-gold); color: var(--brand-navy); text-decoration: none; }
   .btn-gold:hover { background: #B8955A; }
 
+  /* ── STEP TABS (Practice → Costs → Results) ── */
+  .step-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 16px 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+  .step-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border: 1.5px solid var(--line);
+    border-radius: 100px;
+    background: var(--surface);
+    color: var(--ink-2);
+    font-family: inherit;
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .step-tab:hover { border-color: var(--brand-purple); color: var(--brand-purple); }
+  .step-tab.active { background: var(--brand-purple); border-color: var(--brand-purple); color: #fff; }
+  .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 100px;
+    background: var(--chip-gold); color: var(--brand-navy); font-size: 0.72rem;
+  }
+  .step-tab.active .step-num { background: var(--brand-gold); }
+  .step-panel { display: none; }
+  body[data-step="practice"] .step-panel[data-panel="practice"],
+  body[data-step="costs"]    .step-panel[data-panel="costs"],
+  body[data-step="results"]  .step-panel[data-panel="results"] { display: block; }
+  .step-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-top: 4px;
+  }
+  .step-est { font-size: 0.85rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .step-est strong { color: var(--ok-dark); }
+  .btn-ghost { background: var(--surface); color: var(--ink-2); border: 1.5px solid var(--line); }
+  .btn-ghost:hover { color: var(--brand-purple); border-color: #D6D0E0; }
+  @media (max-width: 540px) {
+    .step-tab { padding: 8px 12px; font-size: 0.78rem; }
+    .step-est { order: -1; flex-basis: 100%; text-align: center; }
+  }
+
+  /* ── OPTIONAL SECTION SUBHEADS / ITEMIZE LINK ── */
+  .sub-head {
+    padding: 14px 22px 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--brand-purple);
+  }
+  .link-btn {
+    background: none;
+    border: none;
+    padding: 4px 0 8px;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--brand-purple);
+    cursor: pointer;
+  }
+  .link-btn:hover { text-decoration: underline; }
+  input[readonly] { background: var(--canvas); color: var(--ink-2); }
+
   @media print {
+    .step-panel { display: block !important; }
     .sg-details:not([open]) { display: none; }
     .sg-details > summary::after { content: none; }
   }
 </style>
 </head>
-<body data-mode="hybrid">
+<body data-mode="hybrid" data-step="practice">
 
 <!-- ══ HEADER ══ -->
 <div class="site-header no-print">
@@ -895,17 +971,23 @@
 </nav>
 <div class="disclosure-inline">For illustrative and informational purposes only. This calculator does not constitute an offer, agreement, or guarantee of services. For Advisor Use Only — not intended for end clients. This calculator should not be used as a basis for determining client-level fees and costs. Results are directional only and are not a valuation, tax opinion, or offer.</div>
 
+<!-- ══ STEP TABS ══ -->
+<nav class="step-tabs no-print" role="tablist" aria-label="Calculator steps">
+  <button type="button" class="step-tab active" data-go="practice" role="tab" aria-selected="true"><span class="step-num">1</span> Your Practice</button>
+  <button type="button" class="step-tab" data-go="costs" role="tab" aria-selected="false"><span class="step-num">2</span> Your Costs</button>
+  <button type="button" class="step-tab" data-go="results" role="tab" aria-selected="false"><span class="step-num">3</span> Results</button>
+</nav>
+
 <!-- ══ PAGE CONTENT ══ -->
 <div class="page" id="calculator">
+
+  <!-- ═══ STEP 1: PRACTICE ═══ -->
+  <section class="step-panel" data-panel="practice">
   <div class="two-col">
-
-    <!-- ═══ ROW 1: Step 1 (left) → Step 2 (right) ═══ -->
-
-    <!-- Step 1: Core Inputs -->
     <div>
       <div class="section-label">Step 1 &mdash; Your Practice</div>
       <div class="card">
-        <div class="card-head">Firm Details &amp; Fees</div>
+        <div class="card-head">Practice Details</div>
         <div class="card-body">
           <div class="fr">
             <div class="fr-label">Firm Name</div>
@@ -931,31 +1013,16 @@
             <span class="input-dollar"><input type="text" inputmode="decimal" id="assets" data-raw="85000000" value="$85,000,000.00" min="0"></span>
             <div class="fr-slider no-print"><input type="range" data-target="assets" min="0" max="500000000" step="1000000" aria-label="Adjust advisory assets"></div>
           </div>
-          <div class="fr">
-            <div class="fr-label">Advisory Basis Points<span class="fr-hint">Whole number (12 = 0.12%)</span></div>
-            <input type="text" inputmode="numeric" id="bps" data-raw="15" data-type="num" value="15" min="0">
-          </div>
-          <div class="fr">
-            <div class="fr-label">Technology Fee<span class="fr-hint">Annual variable</span></div>
-            <span class="input-dollar"><input type="text" inputmode="decimal" id="techFee" data-raw="1300" value="$1,300.00" min="0"></span>
-          </div>
-          <div class="fr">
-            <div class="fr-label">E&amp;O Cost<span class="fr-hint">Annual variable</span></div>
-            <span class="input-dollar"><input type="text" inputmode="decimal" id="eoCost" data-raw="2500" value="$2,500.00" min="0"></span>
-          </div>
-          <div class="fr">
-            <div class="fr-label">Licensed People<span class="fr-hint">Including the owner (additional advisor fees apply per person beyond the first)</span></div>
-            <input type="text" inputmode="numeric" id="licensedPeople" data-raw="1" data-type="num" value="1" min="1">
-          </div>
         </div>
       </div>
     </div>
 
-    <!-- Step 2: Revenue Mix -->
+    <!-- Optional: revenue mix + variable cost attribution (display only) -->
     <div>
-      <div class="section-label">Step 2 &mdash; Revenue Mix</div>
-      <div class="card">
-        <div class="card-head" id="mixCardHead">What % of GDC comes from each line?</div>
+      <div class="section-label">Optional &mdash; Breakdown</div>
+      <details class="card sg-details" id="mixDetails">
+        <summary class="card-head">Revenue &amp; cost breakdown by line</summary>
+        <div class="sub-head"><span id="mixCardHead">What % of GDC comes from each line?</span></div>
         <div class="card-body">
           <div class="gt-head c3">
             <div>Revenue Type</div>
@@ -974,16 +1041,7 @@
           </div>
           <div id="mixCheck" class="badge ok"></div>
         </div>
-      </div>
-    </div>
-
-    <!-- ═══ ROW 2: Step 3 (left) → Step 4 (right) ═══ -->
-
-    <!-- Step 3: Variable Cost Attribution -->
-    <div>
-      <div class="section-label">Step 3 &mdash; Variable Cost Attribution</div>
-      <div class="card">
-        <div class="card-head">How do variable costs distribute?</div>
+        <div class="sub-head">How do variable costs distribute?</div>
         <div class="card-body">
           <div class="gt-head c4">
             <div>Type</div>
@@ -1009,15 +1067,55 @@
           <div class="cf-item"><div class="cf-label">E&amp;O + Advisor Fees</div><div class="cf-value" id="eoDisplay"></div></div>
           <div class="cf-item"><div class="cf-label">Total Variable Costs</div><div class="cf-value" id="totalVarCosts"></div></div>
         </div>
+      </details>
+    </div>
+    <div class="full step-nav no-print">
+      <span></span>
+      <span class="step-est">Savings with Rossby: <strong class="js-est"></strong> / yr</span>
+      <button type="button" class="btn btn-dark" data-go="costs">Next: Your Costs &rarr;</button>
+    </div>
+  </div>
+  </section>
+
+  <!-- ═══ STEP 2: COSTS ═══ -->
+  <section class="step-panel" data-panel="costs">
+  <div class="two-col">
+    <div>
+      <div class="section-label">Step 2 &mdash; Current Fees</div>
+      <div class="card">
+        <div class="card-head">Platform &amp; Licensing Fees</div>
+        <div class="card-body">
+          <div class="fr">
+            <div class="fr-label">Advisory Basis Points<span class="fr-hint">Whole number (12 = 0.12%)</span></div>
+            <input type="text" inputmode="numeric" id="bps" data-raw="15" data-type="num" value="15" min="0">
+          </div>
+          <div class="fr">
+            <div class="fr-label">Technology Fee<span class="fr-hint">Annual variable</span></div>
+            <span class="input-dollar"><input type="text" inputmode="decimal" id="techFee" data-raw="1300" value="$1,300.00" min="0"></span>
+          </div>
+          <div class="fr">
+            <div class="fr-label">E&amp;O Cost<span class="fr-hint">Annual variable</span></div>
+            <span class="input-dollar"><input type="text" inputmode="decimal" id="eoCost" data-raw="2500" value="$2,500.00" min="0"></span>
+          </div>
+          <div class="fr">
+            <div class="fr-label">Licensed People<span class="fr-hint">Including the owner (additional advisor fees apply per person beyond the first)</span></div>
+            <input type="text" inputmode="numeric" id="licensedPeople" data-raw="1" data-type="num" value="1" min="1">
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Step 4: Fixed Costs -->
     <div>
-      <div class="section-label">Step 4 &mdash; Fixed Costs</div>
+      <div class="section-label">Step 2 &mdash; Fixed Costs</div>
       <div class="card">
         <div class="card-head">Annual Overhead</div>
         <div class="card-body">
+          <div class="fr">
+            <div class="fr-label">Total Annual Overhead<span class="fr-hint">Rent, staff, software, marketing, compliance</span></div>
+            <span class="input-dollar"><input type="text" inputmode="decimal" id="fc_total" data-raw="85000" value="$85,000.00" min="0"></span>
+          </div>
+          <button type="button" class="link-btn no-print" id="itemizeToggle">Itemize overhead &#9662;</button>
+          <div id="fcItems" hidden>
           <div class="gt-head c2">
             <div>Expense</div>
             <div style="text-align:right;">Annual Cost ($)</div>
@@ -1034,12 +1132,21 @@
             <div>Total Fixed Costs</div>
             <div class="cv" id="totalFixedCosts"></div>
           </div>
+          </div>
         </div>
       </div>
     </div>
+    <div class="full step-nav no-print">
+      <button type="button" class="btn btn-ghost" data-go="practice">&larr; Back</button>
+      <span class="step-est">Savings with Rossby: <strong class="js-est"></strong> / yr</span>
+      <button type="button" class="btn btn-dark" data-go="results">See Results &rarr;</button>
+    </div>
+  </div>
+  </section>
 
-    <!-- ═══ ROW 3: Results (full width) ═══ -->
-
+  <!-- ═══ STEP 3: RESULTS ═══ -->
+  <section class="step-panel" data-panel="results">
+  <div class="two-col">
     <!-- Rossby Uplift Hero -->
     <div class="full">
       <div class="section-label">Your Results</div>
@@ -1185,11 +1292,11 @@
       </div>
     </div>
 
-    <!-- Stay vs. Go: transition breakeven (optional) -->
+    <!-- Optional: Transition & practice value -->
     <div class="full">
-      <div class="section-label">Optional &mdash; Stay vs. Go</div>
+      <div class="section-label">Optional &mdash; Transition &amp; Value</div>
       <details class="card sg-details" id="sgDetails">
-        <summary class="card-head">What does the move cost in year one, and when does it pay back?</summary>
+        <summary class="card-head">What the move costs in year one, when it pays back, and what it adds to practice value</summary>
         <div class="sg-grid">
           <div>
             <div class="fr">
@@ -1208,6 +1315,10 @@
               <div class="fr-label">One-time Transition Costs<span class="fr-hint">Legal, exit fees, account transfer fees</span></div>
               <span class="input-dollar"><input type="text" inputmode="decimal" id="sg_onetime" data-raw="0" value="$0.00" min="0"></span>
             </div>
+            <div class="fr">
+              <div class="fr-label">EBITDA Multiple<span class="fr-hint">Net take-home is used as the EBITDA estimate (before owner pay)</span></div>
+              <input type="text" inputmode="decimal" id="ev_multiple" data-raw="6" data-type="mult" value="6&times;" min="0" max="20">
+            </div>
           </div>
           <div>
             <div class="gt-head c4s">
@@ -1217,33 +1328,18 @@
               <div style="text-align:right;">Cumulative +/&minus;</div>
             </div>
             <div id="sgRows"></div>
-            <div class="card-footer" style="margin:10px -22px -16px;">
-              <div class="cf-item"><div class="cf-label">Year-1 Revenue Lost</div><div class="cf-value" id="sg_lostRev"></div></div>
-              <div class="cf-item"><div class="cf-label">Breakeven</div><div class="cf-value" id="sg_breakeven"></div></div>
-              <div class="cf-item"><div class="cf-label">5-Year Gain</div><div class="cf-value" id="sg_fiveYear"></div></div>
-            </div>
-          </div>
-        </div>
-        <div class="sg-note">Transitions are handled by <strong>ROffice</strong>, a separate company within Rossby Brands. Stay assumes today's net take-home holds flat; Rossby assumes full Rossby and overhead costs from month one.</div>
-      </details>
-    </div>
-
-    <!-- Practice Value Impact -->
-    <div class="full">
-      <div class="section-label">Practice Value Impact</div>
-      <div class="card" style="margin-bottom:20px;">
-        <div class="card-body">
-          <div class="fr">
-            <div class="fr-label">EBITDA Multiple<span class="fr-hint">Net take-home is used as the EBITDA estimate (before owner pay)</span></div>
-            <input type="text" inputmode="decimal" id="ev_multiple" data-raw="6" data-type="mult" value="6&times;" min="0" max="20">
           </div>
         </div>
         <div class="card-footer">
+              <div class="cf-item"><div class="cf-label">Year-1 Revenue Lost</div><div class="cf-value" id="sg_lostRev"></div></div>
+              <div class="cf-item"><div class="cf-label">Breakeven</div><div class="cf-value" id="sg_breakeven"></div></div>
+              <div class="cf-item"><div class="cf-label">5-Year Gain</div><div class="cf-value" id="sg_fiveYear"></div></div>
           <div class="cf-item"><div class="cf-label">Current Est. Value</div><div class="cf-value" id="ev_current"></div></div>
-          <div class="cf-item"><div class="cf-label">With Rossby</div><div class="cf-value" id="ev_rossby"></div></div>
+          <div class="cf-item"><div class="cf-label">Value With Rossby</div><div class="cf-value" id="ev_rossby"></div></div>
           <div class="cf-item"><div class="cf-label">Added Value</div><div class="cf-value" id="ev_added"></div></div>
         </div>
-      </div>
+        <div class="sg-note">Transitions are handled by <strong>ROffice</strong>, a separate company within Rossby Brands. Stay assumes today's net take-home holds flat; Rossby assumes full Rossby and overhead costs from month one.</div>
+      </details>
     </div>
 
     <!-- Cost Detail Summary -->
@@ -1266,8 +1362,13 @@
         </button>
       </div>
     </div>
-
+    <div class="full step-nav no-print">
+      <button type="button" class="btn btn-ghost" data-go="costs">&larr; Back</button>
+      <span></span><span></span>
+    </div>
   </div>
+  </section>
+
 </div>
 
 <script>
@@ -1407,16 +1508,24 @@ function recalc() {
   setText('eoDisplay', fmt(eoAdditional));
 
   /* ── Totals ── */
-  const totalVarCosts = vcdTotal + techFee + eoAdditional;
+  /* Totals use the full base variable cost; the line-by-line attribution
+     above is a display breakdown and never changes the results. */
+  const totalVarCosts = baseVarCost + techFee + eoAdditional;
   setText('totalVarCosts', fmt(totalVarCosts));
 
   const contAfterVar = gdc - totalVarCosts;
 
   /* ── Fixed costs ── */
   const fcIds = ['fc_planning','fc_crm','fc_rent','fc_assistant','fc_marketing','fc_compliance','fc_risk','fc_other'];
-  let totalFixed = 0;
-  fcIds.forEach(id => { totalFixed += getDollarVal(id); });
-  setText('totalFixedCosts', fmt(totalFixed));
+  let itemSum = 0;
+  fcIds.forEach(id => { itemSum += getDollarVal(id); });
+  setText('totalFixedCosts', fmt(itemSum));
+  const fcTotalEl = document.getElementById('fc_total');
+  if (overheadItemized) {
+    fcTotalEl.dataset.raw = itemSum;
+    fcTotalEl.value = fmtField(fcTotalEl);
+  }
+  const totalFixed = overheadItemized ? itemSum : getDollarVal('fc_total');
 
   /* ── Section 4 outputs ── */
   const totalRev      = gdc;
@@ -1473,6 +1582,12 @@ function recalc() {
   const ppaDiff = rossbyPPA - profitPerAcct;
   setDelta('ppaDelta', ppaDiff, (ppaDiff >= 0 ? '+' : '') + fmt(ppaDiff));
 
+  /* Running estimate shown under each input step */
+  document.querySelectorAll('.js-est').forEach(function(el) {
+    el.textContent = (rossbyUplift >= 0 ? '+' : '') + fmt(rossbyUplift);
+    el.style.color = rossbyUplift >= 0 ? 'var(--ok-dark)' : 'var(--crit)';
+  });
+
   /* Uplift hero */
   setText('upliftAmount', (rossbyUplift >= 0 ? '+' : '') + fmt(rossbyUplift));
   const heroEl = document.getElementById('resultsHero');
@@ -1492,7 +1607,7 @@ function recalc() {
   setText('firmNameDisplay', 'Analysis for ' + (document.getElementById('firmName').value || 'Your Firm'));
 
   /* Detail section */
-  setText('det_baseVar', fmt(vcdTotal));
+  setText('det_baseVar', fmt(baseVarCost));
   setText('det_totalVar', fmt(totalVarCosts));
   setText('det_fixed', fmt(totalFixed));
   setText('det_contrib', fmt(contAfterVar));
@@ -1516,7 +1631,7 @@ function recalc() {
   /* ── Revenue breakdown ── */
   setText('wfLegendVar', mode === 'ria' ? 'Advisory platform bps' : 'BD payout & advisory platform bps');
   drawBreakdown('Current', gdc, [
-    { cls: 'var',   label: 'Variable', val: vcdTotal },
+    { cls: 'var',   label: 'Variable', val: baseVarCost },
     { cls: 'fees',  label: 'Fees',     val: techFee + eoAdditional },
     { cls: 'fixed', label: 'Overhead', val: totalFixed }
   ], grossProfit);
@@ -1659,8 +1774,10 @@ function resetAll() {
     vc_comm:20, vc_adv:70, vc_fp:0, vc_misc:0, vc_ins:10,
     fc_planning:5000, fc_crm:4000, fc_rent:18000, fc_assistant:30000,
     fc_marketing:10000, fc_compliance:8000, fc_risk:5000, fc_other:5000,
-    sg_attrition:5, sg_repaper:3, sg_recovery:12, sg_onetime:0, ev_multiple:6
+    sg_attrition:5, sg_repaper:3, sg_recovery:12, sg_onetime:0, ev_multiple:6,
+    fc_total:85000
   };
+  setItemized(false);
   if (mode === 'ria') {
     /* RIA defaults: visible mix sums to 100% across adv/fp/ins */
     d.gdc = 950000;
@@ -1733,6 +1850,37 @@ document.querySelectorAll('input[type="range"][data-target]').forEach(function(s
     t.dataset.raw = sl.value;
     t.value = fmtField(t);
     recalc();
+  });
+});
+
+/* ── Overhead: single total, or itemized lines that sum into it ── */
+let overheadItemized = false;
+function setItemized(on) {
+  overheadItemized = on;
+  document.getElementById('fcItems').hidden = !on;
+  document.getElementById('fc_total').readOnly = on;
+  document.getElementById('itemizeToggle').innerHTML = on ? 'Use a single total &#9652;' : 'Itemize overhead &#9662;';
+}
+document.getElementById('itemizeToggle').addEventListener('click', function() {
+  setItemized(!overheadItemized);
+  recalc();
+});
+
+/* ── Step tabs ── */
+function setStep(step) {
+  document.body.dataset.step = step;
+  document.querySelectorAll('.step-tab').forEach(function(btn) {
+    var active = btn.dataset.go === step;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+}
+document.querySelectorAll('[data-go]').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    setStep(btn.dataset.go);
+    if (!btn.classList.contains('step-tab')) {
+      document.querySelector('.step-tabs').scrollIntoView({ behavior: 'smooth' });
+    }
   });
 });
 
