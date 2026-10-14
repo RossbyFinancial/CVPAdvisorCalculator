@@ -801,6 +801,68 @@
      Cost-side totals switch from the purple rule to gold; the purple
      2px rule stays reserved for the primary (CTA-adjacent) emphasis. */
   .gt-total { border-top-color: var(--brand-gold); }
+
+  /* ── SLIDERS (paired with Step 1 inputs) ── */
+  .fr.has-slider { flex-wrap: wrap; }
+  .fr-slider { flex-basis: 100%; }
+  .fr-slider input[type="range"] {
+    width: 100%;
+    accent-color: var(--brand-purple);
+    cursor: pointer;
+  }
+
+  /* ── NET TAKE-HOME LINE IN HERO ── */
+  .rh-net { font-size: 0.85rem; color: var(--ink-2); margin-top: 10px; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* ── REVENUE BREAKDOWN (where each revenue dollar goes) ── */
+  .wf-bar-wrap { flex: 1; height: 32px; border-radius: 8px; overflow: hidden; display: flex; background: var(--line-soft); }
+  .wf-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; transition: width 0.4s ease; }
+  .wf-seg.var   { background: var(--brand-terracotta); }
+  .wf-seg.fees  { background: var(--brand-gold); color: var(--brand-navy); }
+  .wf-seg.plat  { background: var(--brand-purple); }
+  .wf-seg.fixed { background: var(--brand-sky); color: var(--brand-navy); }
+  .wf-seg.net   { background: var(--ok); }
+  .wf-detail { font-size: 0.74rem; color: var(--ink-2); margin: -4px 0 14px 112px; font-variant-numeric: tabular-nums; }
+  .wf-detail:last-child { margin-bottom: 0; }
+  .wf-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 14px; font-size: 0.74rem; color: var(--ink-2); }
+  .wf-legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; background: var(--c); }
+  @media (max-width: 540px) {
+    .wf-detail { margin-left: 0; }
+    .chart-card .chart-label { width: 70px; }
+    .chart-card .chart-val { width: 84px; }
+  }
+
+  /* ── STAY VS. GO + PRACTICE VALUE ── */
+  .sg-details { margin-bottom: 20px; }
+  .sg-details > summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .sg-details > summary::-webkit-details-marker { display: none; }
+  .sg-details > summary::after { content: "Show \25BE"; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; opacity: 0.85; }
+  .sg-details[open] > summary::after { content: "Hide \25B4"; }
+  .sg-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 0; }
+  .sg-grid > div { padding: 6px 22px 16px; }
+  .sg-grid > div:first-child { border-right: 1px solid var(--line); }
+  .c4s { grid-template-columns: 0.6fr 1fr 1fr 1fr; gap: 8px; }
+  .sg-note { font-size: 0.78rem; color: var(--ink-2); padding: 12px 22px; border-top: 1px solid var(--line-soft); background: var(--canvas); }
+  @media (max-width: 800px) {
+    .sg-grid { grid-template-columns: 1fr; }
+    .sg-grid > div:first-child { border-right: none; border-bottom: 1px solid var(--line); }
+  }
+
+  /* ── CTA ── */
+  .btn-gold { background: var(--brand-gold); color: var(--brand-navy); text-decoration: none; }
+  .btn-gold:hover { background: #B8955A; }
+
+  @media print {
+    .sg-details:not([open]) { display: none; }
+    .sg-details > summary::after { content: none; }
+  }
 </style>
 </head>
 <body data-mode="hybrid">
@@ -831,7 +893,7 @@
   <button type="button" class="mode-tab active" data-mode="hybrid" role="tab" aria-selected="true">Hybrid Advisor (BD + RIA)</button>
   <button type="button" class="mode-tab" data-mode="ria" role="tab" aria-selected="false">RIA-Only</button>
 </nav>
-<div class="disclosure-inline">For illustrative and informational purposes only. This calculator does not constitute an offer, agreement, or guarantee of services. For Advisor Use Only — not intended for end clients. This calculator should not be used as a basis for determining client-level fees and costs.</div>
+<div class="disclosure-inline">For illustrative and informational purposes only. This calculator does not constitute an offer, agreement, or guarantee of services. For Advisor Use Only — not intended for end clients. This calculator should not be used as a basis for determining client-level fees and costs. Results are directional only and are not a valuation, tax opinion, or offer.</div>
 
 <!-- ══ PAGE CONTENT ══ -->
 <div class="page" id="calculator">
@@ -849,21 +911,25 @@
             <div class="fr-label">Firm Name</div>
             <input type="text" id="firmName" value="Sample Firm" style="text-align:left;">
           </div>
-          <div class="fr">
+          <div class="fr has-slider">
             <div class="fr-label"><span id="gdcLabel">Gross Dealer Concession (GDC)</span><span class="fr-hint" id="gdcHint">Annual GDC in dollars</span></div>
             <span class="input-dollar"><input type="text" inputmode="decimal" id="gdc" data-raw="650000" value="$650,000.00" min="0"></span>
+            <div class="fr-slider no-print"><input type="range" data-target="gdc" min="0" max="5000000" step="10000" aria-label="Adjust annual revenue"></div>
           </div>
-          <div class="fr hybrid-only">
+          <div class="fr has-slider hybrid-only">
             <div class="fr-label">Payout Rate<span class="fr-hint">e.g. 90 for 90%</span></div>
             <input type="text" inputmode="decimal" id="payout" data-raw="90" data-type="pct" value="90%" min="0" max="100">
+            <div class="fr-slider no-print"><input type="range" data-target="payout" min="50" max="100" step="0.5" aria-label="Adjust payout rate"></div>
           </div>
-          <div class="fr">
+          <div class="fr has-slider">
             <div class="fr-label">Number of Accounts</div>
             <input type="text" inputmode="numeric" id="accounts" data-raw="250" data-type="num" value="250" min="0">
+            <div class="fr-slider no-print"><input type="range" data-target="accounts" min="0" max="5000" step="10" aria-label="Adjust number of accounts"></div>
           </div>
-          <div class="fr">
+          <div class="fr has-slider">
             <div class="fr-label">Advisory Assets<span class="fr-hint">Total AUM in dollars</span></div>
             <span class="input-dollar"><input type="text" inputmode="decimal" id="assets" data-raw="85000000" value="$85,000,000.00" min="0"></span>
+            <div class="fr-slider no-print"><input type="range" data-target="assets" min="0" max="500000000" step="1000000" aria-label="Adjust advisory assets"></div>
           </div>
           <div class="fr">
             <div class="fr-label">Advisory Basis Points<span class="fr-hint">Whole number (12 = 0.12%)</span></div>
@@ -981,6 +1047,7 @@
         <div class="rh-eyebrow">Annual Savings with Rossby</div>
         <div class="rh-amount" id="upliftAmount"></div>
         <div class="rh-sub" id="upliftSub"></div>
+        <div class="rh-net" id="netLine"></div>
         <div class="rh-firm" id="firmNameDisplay"></div>
       </div>
     </div>
@@ -1002,6 +1069,32 @@
       </div>
     </div>
 
+    <!-- Revenue Breakdown: where each revenue dollar goes -->
+    <div class="full">
+      <div class="card chart-card">
+        <h3>Where Your Revenue Goes</h3>
+        <div class="chart-row">
+          <div class="chart-label">Current</div>
+          <div class="wf-bar-wrap" id="wfCurrent"></div>
+          <div class="chart-val" id="wfNetCurrent"></div>
+        </div>
+        <div class="wf-detail" id="wfDetailCurrent"></div>
+        <div class="chart-row">
+          <div class="chart-label">With Rossby</div>
+          <div class="wf-bar-wrap" id="wfRossby"></div>
+          <div class="chart-val" id="wfNetRossby"></div>
+        </div>
+        <div class="wf-detail" id="wfDetailRossby"></div>
+        <div class="wf-legend">
+          <span style="--c:var(--brand-terracotta)" id="wfLegendVar">BD payout &amp; advisory platform bps</span>
+          <span style="--c:var(--brand-gold)">Tech, E&amp;O &amp; advisor fees</span>
+          <span style="--c:var(--brand-purple)">Rossby platform fee</span>
+          <span style="--c:var(--brand-sky)">Fixed overhead</span>
+          <span style="--c:var(--ok)">Net take-home</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Comparison: Current vs Rossby -->
     <div class="compare-card">
       <h3>Current Structure</h3>
@@ -1010,6 +1103,7 @@
       <div class="met"><div class="met-label">Gross Profit</div><div class="met-val" id="out_profit"></div></div>
       <div class="met"><div class="met-label">Break-even Accounts</div><div class="met-val" id="out_breakeven"></div></div>
       <div class="met"><div class="met-label">Profit / Account</div><div class="met-val" id="out_perAcct"></div></div>
+      <div class="met"><div class="met-label">Effective Payout <span class="fr-hint" style="display:inline;">(net take-home &divide; revenue)</span></div><div class="met-val" id="out_effPayout"></div></div>
     </div>
     <div class="compare-card rossby">
       <h3>With Rossby <span class="rossby-pill">★ Rossby Advantage</span></h3>
@@ -1018,6 +1112,7 @@
       <div class="met"><div class="met-label">Gross Profit</div><div class="met-val" id="ros_profit"></div><span class="delta" id="profitDelta"></span></div>
       <div class="met"><div class="met-label">Break-even Accounts</div><div class="met-val" id="ros_breakeven"></div><span class="delta" id="beDelta"></span></div>
       <div class="met"><div class="met-label">Profit / Account</div><div class="met-val" id="ros_perAcct"></div><span class="delta" id="ppaDelta"></span></div>
+      <div class="met"><div class="met-label">Effective Payout <span class="fr-hint" style="display:inline;">(net take-home &divide; revenue)</span></div><div class="met-val" id="ros_effPayout"></div><span class="delta" id="effDelta"></span></div>
     </div>
 
     <!-- Rossby Pricing — Explained -->
@@ -1090,6 +1185,67 @@
       </div>
     </div>
 
+    <!-- Stay vs. Go: transition breakeven (optional) -->
+    <div class="full">
+      <div class="section-label">Optional &mdash; Stay vs. Go</div>
+      <details class="card sg-details" id="sgDetails">
+        <summary class="card-head">What does the move cost in year one, and when does it pay back?</summary>
+        <div class="sg-grid">
+          <div>
+            <div class="fr">
+              <div class="fr-label">Client Attrition<span class="fr-hint">% of revenue that doesn't follow you</span></div>
+              <input type="text" inputmode="decimal" id="sg_attrition" data-raw="5" data-type="pct" value="5%" min="0" max="100">
+            </div>
+            <div class="fr">
+              <div class="fr-label">Months to Re-paper<span class="fr-hint">Retained revenue ramps up over this period</span></div>
+              <input type="text" inputmode="numeric" id="sg_repaper" data-raw="3" data-type="num" value="3" min="0" max="24">
+            </div>
+            <div class="fr">
+              <div class="fr-label">Months to Recover Attrition<span class="fr-hint">Time to win back lost revenue (0 = never)</span></div>
+              <input type="text" inputmode="numeric" id="sg_recovery" data-raw="12" data-type="num" value="12" min="0" max="60">
+            </div>
+            <div class="fr">
+              <div class="fr-label">One-time Transition Costs<span class="fr-hint">Legal, exit fees, account transfer fees</span></div>
+              <span class="input-dollar"><input type="text" inputmode="decimal" id="sg_onetime" data-raw="0" value="$0.00" min="0"></span>
+            </div>
+          </div>
+          <div>
+            <div class="gt-head c4s">
+              <div>Year</div>
+              <div style="text-align:right;">Stay (Net)</div>
+              <div style="text-align:right;">Rossby (Net)</div>
+              <div style="text-align:right;">Cumulative +/&minus;</div>
+            </div>
+            <div id="sgRows"></div>
+            <div class="card-footer" style="margin:10px -22px -16px;">
+              <div class="cf-item"><div class="cf-label">Year-1 Revenue Lost</div><div class="cf-value" id="sg_lostRev"></div></div>
+              <div class="cf-item"><div class="cf-label">Breakeven</div><div class="cf-value" id="sg_breakeven"></div></div>
+              <div class="cf-item"><div class="cf-label">5-Year Gain</div><div class="cf-value" id="sg_fiveYear"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="sg-note">Transitions are handled by <strong>ROffice</strong>, a separate company within Rossby Brands. Stay assumes today's net take-home holds flat; Rossby assumes full Rossby and overhead costs from month one.</div>
+      </details>
+    </div>
+
+    <!-- Practice Value Impact -->
+    <div class="full">
+      <div class="section-label">Practice Value Impact</div>
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-body">
+          <div class="fr">
+            <div class="fr-label">EBITDA Multiple<span class="fr-hint">Net take-home is used as the EBITDA estimate (before owner pay)</span></div>
+            <input type="text" inputmode="decimal" id="ev_multiple" data-raw="6" data-type="mult" value="6&times;" min="0" max="20">
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="cf-item"><div class="cf-label">Current Est. Value</div><div class="cf-value" id="ev_current"></div></div>
+          <div class="cf-item"><div class="cf-label">With Rossby</div><div class="cf-value" id="ev_rossby"></div></div>
+          <div class="cf-item"><div class="cf-label">Added Value</div><div class="cf-value" id="ev_added"></div></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Cost Detail Summary -->
     <div class="full">
       <div class="card" style="margin-bottom:12px;">
@@ -1103,6 +1259,7 @@
       </div>
 
       <div class="actions-bar no-print">
+        <a class="btn btn-gold" id="ctaEmail" href="mailto:setsail@rossbyfinancial.com">Talk to Rossby</a>
         <button class="btn btn-dark" onclick="window.print()">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
           Print Analysis
@@ -1193,6 +1350,7 @@ function recalc() {
      and ignores commission lines) */
   const mode = document.body.dataset.mode || 'hybrid';
   const activeKeys = (mode === 'ria') ? RIA_KEYS : LINE_KEYS;
+  syncSliders();
 
   /* Read core inputs */
   const gdc      = getDollarVal('gdc');
@@ -1340,8 +1498,133 @@ function recalc() {
   setText('det_contrib', fmt(contAfterVar));
   setText('det_totalCost', fmt(totalCost));
 
+  /* ── Net take-home & effective payout ── */
+  const effCurrent = gdc > 0 ? grossProfit / gdc : null;
+  const effRossby  = gdc > 0 ? rossbyGP / gdc : null;
+  setText('out_effPayout', effCurrent === null ? 'N/A' : fmtPct(effCurrent));
+  setText('ros_effPayout', effRossby === null ? 'N/A' : fmtPct(effRossby));
+  if (effCurrent === null) {
+    setDelta('effDelta', 0, 'N/A');
+    setText('netLine', '');
+  } else {
+    const effDiff = (effRossby - effCurrent) * 100;
+    setDelta('effDelta', effDiff, (effDiff >= 0 ? '+' : '') + effDiff.toFixed(1) + ' pts');
+    setText('netLine', 'Net take-home ' + fmt(grossProfit) + ' \u2192 ' + fmt(rossbyGP) +
+      '  \u00b7  Effective payout ' + fmtPct(effCurrent) + ' \u2192 ' + fmtPct(effRossby));
+  }
+
+  /* ── Revenue breakdown ── */
+  setText('wfLegendVar', mode === 'ria' ? 'Advisory platform bps' : 'BD payout & advisory platform bps');
+  drawBreakdown('Current', gdc, [
+    { cls: 'var',   label: 'Variable', val: vcdTotal },
+    { cls: 'fees',  label: 'Fees',     val: techFee + eoAdditional },
+    { cls: 'fixed', label: 'Overhead', val: totalFixed }
+  ], grossProfit);
+  drawBreakdown('Rossby', gdc, [
+    { cls: 'plat',  label: 'Rossby',   val: rossbyPricing },
+    { cls: 'fixed', label: 'Overhead', val: totalFixed }
+  ], rossbyGP);
+
+  /* ── Stay vs. Go ── */
+  calcStayVsGo(gdc, grossProfit, rossbyPricing + totalFixed);
+
+  /* ── Practice value ── */
+  const multiple = parseFloat(document.getElementById('ev_multiple').dataset.raw) || 0;
+  const evCurrent = Math.max(grossProfit, 0) * multiple;
+  const evRossby  = Math.max(rossbyGP, 0) * multiple;
+  setText('ev_current', fmt(evCurrent));
+  setText('ev_rossby', fmt(evRossby));
+  setText('ev_added', (evRossby - evCurrent >= 0 ? '+' : '') + fmt(evRossby - evCurrent));
+  document.getElementById('ev_added').style.color = evRossby >= evCurrent ? 'var(--ok-dark)' : 'var(--crit)';
+
+  /* ── CTA ── */
+  const firm = document.getElementById('firmName').value || 'Your Firm';
+  document.getElementById('ctaEmail').href = 'mailto:setsail@rossbyfinancial.com?subject=' +
+    encodeURIComponent('Advisor Profitability Analysis \u2013 ' + firm);
+
   /* ── Chart ── */
   drawChart(grossProfit, rossbyGP);
+}
+
+/* ── Revenue breakdown bar: cost segments + net, as a share of revenue ── */
+function drawBreakdown(row, revenue, segs, net) {
+  const totalCost = segs.reduce((a, s) => a + Math.max(s.val, 0), 0);
+  const scale = Math.max(revenue, totalCost, 1);
+  const all = segs.concat([{ cls: 'net', label: 'Net', val: Math.max(net, 0) }]);
+  const wrap = document.getElementById('wf' + row);
+  wrap.innerHTML = '';
+  all.forEach(function(s) {
+    const pct = Math.max(s.val, 0) / scale * 100;
+    const el = document.createElement('div');
+    el.className = 'wf-seg ' + s.cls;
+    el.style.width = pct + '%';
+    el.textContent = pct >= 9 ? Math.round(pct) + '%' : '';
+    el.title = s.label + ': ' + fmt(s.val);
+    wrap.appendChild(el);
+  });
+  const valEl = document.getElementById('wfNet' + row);
+  valEl.textContent = fmt(net);
+  valEl.style.color = net >= 0 ? 'var(--green-dark)' : 'var(--red)';
+  setText('wfDetail' + row, all.map(s => s.label + ' ' + fmt(s.cls === 'net' ? net : s.val)).join('  \u00b7  '));
+}
+
+/* ── Stay vs. Go: 60-month cumulative net, staying vs. moving to Rossby ── */
+function calcStayVsGo(gdc, stayAnnualNet, rossbyAnnualCost) {
+  const attr     = (parseFloat(document.getElementById('sg_attrition').dataset.raw) || 0) / 100;
+  const repaper  = parseFloat(document.getElementById('sg_repaper').dataset.raw) || 0;
+  const recovery = parseFloat(document.getElementById('sg_recovery').dataset.raw) || 0;
+  const oneTime  = getDollarVal('sg_onetime');
+
+  const monthlyRev  = gdc / 12;
+  const stayMonthly = stayAnnualNet / 12;
+  const moveCost    = rossbyAnnualCost / 12;
+  const yearStay = [0,0,0,0,0], yearMove = [0,0,0,0,0], cumDiff = [];
+  let cumStay = 0, cumMove = 0, lostRev = 0, lastBehind = 0;
+
+  for (let m = 1; m <= 60; m++) {
+    let share;
+    if (repaper > 0 && m <= repaper) {
+      share = (1 - attr) * (m / repaper);
+    } else {
+      const since = m - repaper;
+      share = (1 - attr) + (recovery > 0 ? attr * Math.min(1, since / recovery) : 0);
+    }
+    const rev  = share * monthlyRev;
+    const move = rev - moveCost - (m === 1 ? oneTime : 0);
+    if (m <= 12) lostRev += monthlyRev - rev;
+    cumStay += stayMonthly;
+    cumMove += move;
+    const y = Math.floor((m - 1) / 12);
+    yearStay[y] += stayMonthly;
+    yearMove[y] += move;
+    if (cumMove < cumStay - 0.005) lastBehind = m;
+    if (m % 12 === 0) cumDiff.push(cumMove - cumStay);
+  }
+
+  let html = '';
+  for (let y = 0; y < 5; y++) {
+    const d = cumDiff[y];
+    html += '<div class="gt-row c4s"><div>Year ' + (y + 1) + '</div>' +
+      '<div class="cv">' + fmt(yearStay[y]) + '</div>' +
+      '<div class="cv">' + fmt(yearMove[y]) + '</div>' +
+      '<div class="cv" style="color:' + (d >= 0 ? 'var(--ok-dark)' : 'var(--crit)') + ';">' +
+      (d >= 0 ? '+' : '') + fmt(d) + '</div></div>';
+  }
+  document.getElementById('sgRows').innerHTML = html;
+
+  setText('sg_lostRev', fmt(lostRev));
+  setText('sg_breakeven', lastBehind >= 60 ? 'Not within 5 yrs' : 'Month ' + (lastBehind + 1));
+  const five = cumDiff[4];
+  setText('sg_fiveYear', (five >= 0 ? '+' : '') + fmt(five));
+  document.getElementById('sg_fiveYear').style.color = five >= 0 ? 'var(--ok-dark)' : 'var(--crit)';
+}
+
+/* ── Sliders mirror their paired Step 1 inputs ── */
+function syncSliders() {
+  document.querySelectorAll('input[type="range"][data-target]').forEach(function(sl) {
+    if (document.activeElement === sl) return;
+    sl.value = document.getElementById(sl.dataset.target).dataset.raw;
+  });
 }
 
 /* ── Chart ── */
@@ -1375,7 +1658,8 @@ function resetAll() {
     mix_comm:10, mix_adv:80, mix_fp:0, mix_misc:0, mix_ins:10,
     vc_comm:20, vc_adv:70, vc_fp:0, vc_misc:0, vc_ins:10,
     fc_planning:5000, fc_crm:4000, fc_rent:18000, fc_assistant:30000,
-    fc_marketing:10000, fc_compliance:8000, fc_risk:5000, fc_other:5000
+    fc_marketing:10000, fc_compliance:8000, fc_risk:5000, fc_other:5000,
+    sg_attrition:5, sg_repaper:3, sg_recovery:12, sg_onetime:0, ev_multiple:6
   };
   if (mode === 'ria') {
     /* RIA defaults: visible mix sums to 100% across adv/fp/ins */
@@ -1416,6 +1700,7 @@ function fmtField(input) {
   var type = input.dataset.type;
   if (type === 'pct') return val + '%';
   if (type === 'num') return Math.round(val).toLocaleString('en-US');
+  if (type === 'mult') return val + '\u00d7';
   return fmtUSD(val); /* dollar */
 }
 
@@ -1437,6 +1722,16 @@ document.querySelectorAll('input[data-raw]').forEach(function(input) {
     if (!isNaN(max) && val > max) val = max;
     input.dataset.raw = val;
     input.value = fmtField(input);
+    recalc();
+  });
+});
+
+/* Sliders write through to their paired input */
+document.querySelectorAll('input[type="range"][data-target]').forEach(function(sl) {
+  sl.addEventListener('input', function() {
+    var t = document.getElementById(sl.dataset.target);
+    t.dataset.raw = sl.value;
+    t.value = fmtField(t);
     recalc();
   });
 });
