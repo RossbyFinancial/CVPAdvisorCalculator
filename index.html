@@ -853,7 +853,6 @@
   .fc-covered-row { border-bottom: none; }
   .pricing-note { font-size: 0.74rem; color: var(--ink-3); margin-top: 12px; line-height: 1.5; }
   .pricing-note-strong { color: var(--ink-1); font-weight: 600; }
-  .met-note { font-size: 0.72rem; color: var(--ink-3); margin-top: 4px; }
 
   /* ── CTA ── */
   .btn-gold { background: var(--brand-gold); color: var(--brand-navy); text-decoration: none; }
@@ -1162,7 +1161,6 @@
       <div class="met"><div class="met-label">Rossby Cost</div><div class="met-val" id="ros_pricing"></div></div>
       <div class="met"><div class="met-label">Gross Profit</div><div class="met-val" id="ros_profit"></div><span class="delta" id="profitDelta"></span></div>
       <div class="met"><div class="met-label">Est. Net Revenue as a %</div><div class="met-val" id="ros_netPct"></div><span class="delta" id="netPctDelta"></span></div>
-      <div class="met"><div class="met-label">Payout Equivalent</div><div class="met-val" id="ros_payoutEq"></div><span class="delta" id="payoutEqDelta"></span><div class="met-note">The payout you would need today to match your profit with Rossby.</div><div class="met-note">It can exceed 100% because Rossby charges a fixed platform fee, not basis points on your clients&rsquo; assets.</div></div>
     </div>
 
     <!-- Rossby Pricing — Explained -->
@@ -1534,18 +1532,6 @@ function recalc() {
   setDelta('profitDelta', rossbyUplift, (rossbyUplift >= 0 ? '+' : '') + fmt(rossbyUplift));
   const pctDiff = (rossbyNetPct - netPct) * 100;
   setDelta('netPctDelta', pctDiff, (pctDiff >= 0 ? '+' : '') + pctDiff.toFixed(1) + ' pts');
-  /* Payout equivalent: the payout at the current firm that would produce the
-     same gross profit as Rossby, holding every other current cost constant.
-     Solves GP(p) = rossbyGP, where GP(p) = GDC*p - AUM*bps - tech - E&O - fixed. */
-  if (gdc <= 0) {
-    setText('ros_payoutEq', 'N/A');
-    setDelta('payoutEqDelta', 0, 'N/A');
-  } else {
-    const payoutEq = (platformCost + techFee + eoCost + totalFixed + rossbyGP) / gdc;
-    setText('ros_payoutEq', fmtPct(payoutEq));
-    const eqDiff = (payoutEq - payout) * 100;
-    setDelta('payoutEqDelta', eqDiff, (eqDiff >= 0 ? '+' : '') + eqDiff.toFixed(1) + ' pts vs. today');
-  }
 
   /* Uplift hero */
   setText('upliftAmount', (rossbyUplift >= 0 ? '+' : '') + fmt(rossbyUplift));
