@@ -859,57 +859,15 @@
   .btn-gold { background: var(--brand-gold); color: var(--brand-navy); text-decoration: none; }
   .btn-gold:hover { background: #B8955A; }
 
-  /* ── STEP TABS (Practice → Costs → Results) ── */
-  .step-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    padding: 16px 16px 0;
-    max-width: 1100px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-  }
-  .step-tab {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 18px;
-    border: 1.5px solid var(--line);
-    border-radius: 100px;
-    background: var(--surface);
-    color: var(--ink-2);
-    font-family: inherit;
-    font-size: 0.84rem;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  .step-tab:hover { border-color: var(--brand-purple); color: var(--brand-purple); }
-  .step-tab.active { background: var(--brand-purple); border-color: var(--brand-purple); color: #fff; }
-  .step-num {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 20px; height: 20px; border-radius: 100px;
-    background: var(--chip-gold); color: var(--brand-navy); font-size: 0.72rem;
-  }
-  .step-tab.active .step-num { background: var(--brand-gold); }
-  .step-panel { display: none; }
-  body[data-step="practice"] .step-panel[data-panel="practice"],
-  body[data-step="costs"]    .step-panel[data-panel="costs"],
-  body[data-step="results"]  .step-panel[data-panel="results"] { display: block; }
-  .step-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
-    padding-top: 4px;
-  }
-  .step-est { font-size: 0.85rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
-  .step-est strong { color: var(--ok-dark); }
-  .btn-ghost { background: var(--surface); color: var(--ink-2); border: 1.5px solid var(--line); }
-  .btn-ghost:hover { color: var(--brand-purple); border-color: #D6D0E0; }
-  @media (max-width: 540px) {
-    .step-tab { padding: 8px 12px; font-size: 0.78rem; }
-    .step-est { order: -1; flex-basis: 100%; text-align: center; }
+  /* ── BREAKDOWN: two tables side by side ── */
+  .bd-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .bd-grid .c3 { grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.75fr) minmax(0, 1fr); }
+  .bd-grid .c4 { grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.65fr) minmax(0, 0.85fr) minmax(0, 0.85fr); }
+  .bd-grid input { min-width: 0; }
+  .bd-grid > div:first-child { border-right: 1px solid var(--line); }
+  @media (max-width: 800px) {
+    .bd-grid { grid-template-columns: minmax(0, 1fr); }
+    .bd-grid > div:first-child { border-right: none; border-bottom: 1px solid var(--line); }
   }
 
   /* ── OPTIONAL SECTION SUBHEADS / ITEMIZE LINK ── */
@@ -935,13 +893,12 @@
   input[readonly] { background: var(--canvas); color: var(--ink-2); }
 
   @media print {
-    .step-panel { display: block !important; }
     .sg-details:not([open]) { display: none; }
     .sg-details > summary::after { content: none; }
   }
 </style>
 </head>
-<body data-mode="hybrid" data-step="practice">
+<body data-mode="hybrid">
 
 <!-- ══ HEADER ══ -->
 <div class="site-header no-print">
@@ -971,19 +928,10 @@
 </nav>
 <div class="disclosure-inline">For illustrative and informational purposes only. This calculator does not constitute an offer, agreement, or guarantee of services. For Advisor Use Only — not intended for end clients. This calculator should not be used as a basis for determining client-level fees and costs. Results are directional only and are not a valuation, tax opinion, or offer.</div>
 
-<!-- ══ STEP TABS ══ -->
-<nav class="step-tabs no-print" role="tablist" aria-label="Calculator steps">
-  <button type="button" class="step-tab active" data-go="practice" role="tab" aria-selected="true"><span class="step-num">1</span> Your Practice</button>
-  <button type="button" class="step-tab" data-go="costs" role="tab" aria-selected="false"><span class="step-num">2</span> Your Costs</button>
-  <button type="button" class="step-tab" data-go="results" role="tab" aria-selected="false"><span class="step-num">3</span> Results</button>
-</nav>
-
 <!-- ══ PAGE CONTENT ══ -->
 <div class="page" id="calculator">
-
-  <!-- ═══ STEP 1: PRACTICE ═══ -->
-  <section class="step-panel" data-panel="practice">
   <div class="two-col">
+
     <div>
       <div class="section-label">Step 1 &mdash; Your Practice</div>
       <div class="card">
@@ -1017,71 +965,9 @@
       </div>
     </div>
 
-    <!-- Optional: revenue mix + variable cost attribution (display only) -->
+    <!-- Step 2: Your Costs (fees + overhead) -->
     <div>
-      <div class="section-label">Optional &mdash; Breakdown</div>
-      <details class="card sg-details" id="mixDetails">
-        <summary class="card-head">Revenue &amp; cost breakdown by line</summary>
-        <div class="sub-head"><span id="mixCardHead">What % of GDC comes from each line?</span></div>
-        <div class="card-body">
-          <div class="gt-head c3">
-            <div>Revenue Type</div>
-            <div style="text-align:right;" id="mixPctHeader">% of GDC</div>
-            <div style="text-align:right;">Revenue ($)</div>
-          </div>
-          <div class="gt-row c3 hybrid-only"><div>Commissions</div><input type="text" inputmode="decimal" id="mix_comm" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="rev_comm"></div></div>
-          <div class="gt-row c3"><div>Advisory Fees</div><input type="text" inputmode="decimal" id="mix_adv" data-raw="80" data-type="pct" value="80%" min="0" max="100"><div class="cv" id="rev_adv"></div></div>
-          <div class="gt-row c3"><div>Financial Planning</div><input type="text" inputmode="decimal" id="mix_fp" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="rev_fp"></div></div>
-          <div class="gt-row c3 hybrid-only"><div>Misc Commissions</div><input type="text" inputmode="decimal" id="mix_misc" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="rev_misc"></div></div>
-          <div class="gt-row c3"><div>Insurance</div><input type="text" inputmode="decimal" id="mix_ins" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="rev_ins"></div></div>
-          <div class="gt-total c3">
-            <div>Total</div>
-            <div class="cv" id="mixTotal"></div>
-            <div class="cv" id="revTotal"></div>
-          </div>
-          <div id="mixCheck" class="badge ok"></div>
-        </div>
-        <div class="sub-head">How do variable costs distribute?</div>
-        <div class="card-body">
-          <div class="gt-head c4">
-            <div>Type</div>
-            <div style="text-align:right;">% Share</div>
-            <div style="text-align:right;">Var Cost</div>
-            <div style="text-align:right;">Contribution</div>
-          </div>
-          <div class="gt-row c4 hybrid-only"><div>Commissions</div><input type="text" inputmode="decimal" id="vc_comm" data-raw="20" data-type="pct" value="20%" min="0" max="100"><div class="cv" id="vcd_comm"></div><div class="cv" id="cont_comm"></div></div>
-          <div class="gt-row c4"><div>Advisory Fees</div><input type="text" inputmode="decimal" id="vc_adv" data-raw="70" data-type="pct" value="70%" min="0" max="100"><div class="cv" id="vcd_adv"></div><div class="cv" id="cont_adv"></div></div>
-          <div class="gt-row c4"><div>Financial Planning</div><input type="text" inputmode="decimal" id="vc_fp" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="vcd_fp"></div><div class="cv" id="cont_fp"></div></div>
-          <div class="gt-row c4 hybrid-only"><div>Misc Commissions</div><input type="text" inputmode="decimal" id="vc_misc" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="vcd_misc"></div><div class="cv" id="cont_misc"></div></div>
-          <div class="gt-row c4"><div>Insurance</div><input type="text" inputmode="decimal" id="vc_ins" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="vcd_ins"></div><div class="cv" id="cont_ins"></div></div>
-          <div class="gt-total c4">
-            <div>Total</div>
-            <div></div>
-            <div class="cv" id="varCostTotal"></div>
-            <div class="cv" id="contTotal"></div>
-          </div>
-          <div id="varCheck" class="badge ok"></div>
-        </div>
-        <div class="card-footer">
-          <div class="cf-item"><div class="cf-label">Tech Fee</div><div class="cf-value" id="techFeeDisplay"></div></div>
-          <div class="cf-item"><div class="cf-label">E&amp;O + Advisor Fees</div><div class="cf-value" id="eoDisplay"></div></div>
-          <div class="cf-item"><div class="cf-label">Total Variable Costs</div><div class="cf-value" id="totalVarCosts"></div></div>
-        </div>
-      </details>
-    </div>
-    <div class="full step-nav no-print">
-      <span></span>
-      <span class="step-est">Savings with Rossby: <strong class="js-est"></strong> / yr</span>
-      <button type="button" class="btn btn-dark" data-go="costs">Next: Your Costs &rarr;</button>
-    </div>
-  </div>
-  </section>
-
-  <!-- ═══ STEP 2: COSTS ═══ -->
-  <section class="step-panel" data-panel="costs">
-  <div class="two-col">
-    <div>
-      <div class="section-label">Step 2 &mdash; Current Fees</div>
+      <div class="section-label">Step 2 &mdash; Your Costs</div>
       <div class="card">
         <div class="card-head">Platform &amp; Licensing Fees</div>
         <div class="card-body">
@@ -1103,10 +989,7 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div>
-      <div class="section-label">Step 2 &mdash; Fixed Costs</div>
+      <div style="height:20px;"></div>
       <div class="card">
         <div class="card-head">Annual Overhead</div>
         <div class="card-body">
@@ -1136,17 +1019,67 @@
         </div>
       </div>
     </div>
-    <div class="full step-nav no-print">
-      <button type="button" class="btn btn-ghost" data-go="practice">&larr; Back</button>
-      <span class="step-est">Savings with Rossby: <strong class="js-est"></strong> / yr</span>
-      <button type="button" class="btn btn-dark" data-go="results">See Results &rarr;</button>
-    </div>
-  </div>
-  </section>
 
-  <!-- ═══ STEP 3: RESULTS ═══ -->
-  <section class="step-panel" data-panel="results">
-  <div class="two-col">
+    <!-- Optional: revenue mix + variable cost attribution (display only) -->
+    <div class="full">
+      <div class="section-label">Optional &mdash; Revenue &amp; Cost Breakdown</div>
+      <details class="card sg-details" id="mixDetails">
+        <summary class="card-head">See how revenue and variable costs split by line</summary>
+        <div class="bd-grid">
+        <div>
+        <div class="sub-head"><span id="mixCardHead">What % of GDC comes from each line?</span></div>
+        <div class="card-body">
+          <div class="gt-head c3">
+            <div>Revenue Type</div>
+            <div style="text-align:right;" id="mixPctHeader">% of GDC</div>
+            <div style="text-align:right;">Revenue ($)</div>
+          </div>
+          <div class="gt-row c3 hybrid-only"><div>Commissions</div><input type="text" inputmode="decimal" id="mix_comm" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="rev_comm"></div></div>
+          <div class="gt-row c3"><div>Advisory Fees</div><input type="text" inputmode="decimal" id="mix_adv" data-raw="80" data-type="pct" value="80%" min="0" max="100"><div class="cv" id="rev_adv"></div></div>
+          <div class="gt-row c3"><div>Financial Planning</div><input type="text" inputmode="decimal" id="mix_fp" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="rev_fp"></div></div>
+          <div class="gt-row c3 hybrid-only"><div>Misc Commissions</div><input type="text" inputmode="decimal" id="mix_misc" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="rev_misc"></div></div>
+          <div class="gt-row c3"><div>Insurance</div><input type="text" inputmode="decimal" id="mix_ins" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="rev_ins"></div></div>
+          <div class="gt-total c3">
+            <div>Total</div>
+            <div class="cv" id="mixTotal"></div>
+            <div class="cv" id="revTotal"></div>
+          </div>
+          <div id="mixCheck" class="badge ok"></div>
+        </div>
+        </div>
+        <div>
+        <div class="sub-head">How do variable costs distribute?</div>
+        <div class="card-body">
+          <div class="gt-head c4">
+            <div>Type</div>
+            <div style="text-align:right;">% Share</div>
+            <div style="text-align:right;">Var Cost</div>
+            <div style="text-align:right;">Contribution</div>
+          </div>
+          <div class="gt-row c4 hybrid-only"><div>Commissions</div><input type="text" inputmode="decimal" id="vc_comm" data-raw="20" data-type="pct" value="20%" min="0" max="100"><div class="cv" id="vcd_comm"></div><div class="cv" id="cont_comm"></div></div>
+          <div class="gt-row c4"><div>Advisory Fees</div><input type="text" inputmode="decimal" id="vc_adv" data-raw="70" data-type="pct" value="70%" min="0" max="100"><div class="cv" id="vcd_adv"></div><div class="cv" id="cont_adv"></div></div>
+          <div class="gt-row c4"><div>Financial Planning</div><input type="text" inputmode="decimal" id="vc_fp" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="vcd_fp"></div><div class="cv" id="cont_fp"></div></div>
+          <div class="gt-row c4 hybrid-only"><div>Misc Commissions</div><input type="text" inputmode="decimal" id="vc_misc" data-raw="0" data-type="pct" value="0%" min="0" max="100"><div class="cv" id="vcd_misc"></div><div class="cv" id="cont_misc"></div></div>
+          <div class="gt-row c4"><div>Insurance</div><input type="text" inputmode="decimal" id="vc_ins" data-raw="10" data-type="pct" value="10%" min="0" max="100"><div class="cv" id="vcd_ins"></div><div class="cv" id="cont_ins"></div></div>
+          <div class="gt-total c4">
+            <div>Total</div>
+            <div></div>
+            <div class="cv" id="varCostTotal"></div>
+            <div class="cv" id="contTotal"></div>
+          </div>
+          <div id="varCheck" class="badge ok"></div>
+        </div>
+        <div class="card-footer">
+          <div class="cf-item"><div class="cf-label">Tech Fee</div><div class="cf-value" id="techFeeDisplay"></div></div>
+          <div class="cf-item"><div class="cf-label">E&amp;O + Advisor Fees</div><div class="cf-value" id="eoDisplay"></div></div>
+          <div class="cf-item"><div class="cf-label">Total Variable Costs</div><div class="cf-value" id="totalVarCosts"></div></div>
+        </div>
+        </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- ═══ RESULTS ═══ -->
     <!-- Rossby Uplift Hero -->
     <div class="full">
       <div class="section-label">Your Results</div>
@@ -1362,13 +1295,8 @@
         </button>
       </div>
     </div>
-    <div class="full step-nav no-print">
-      <button type="button" class="btn btn-ghost" data-go="costs">&larr; Back</button>
-      <span></span><span></span>
-    </div>
-  </div>
-  </section>
 
+  </div>
 </div>
 
 <script>
@@ -1581,12 +1509,6 @@ function recalc() {
   }
   const ppaDiff = rossbyPPA - profitPerAcct;
   setDelta('ppaDelta', ppaDiff, (ppaDiff >= 0 ? '+' : '') + fmt(ppaDiff));
-
-  /* Running estimate shown under each input step */
-  document.querySelectorAll('.js-est').forEach(function(el) {
-    el.textContent = (rossbyUplift >= 0 ? '+' : '') + fmt(rossbyUplift);
-    el.style.color = rossbyUplift >= 0 ? 'var(--ok-dark)' : 'var(--crit)';
-  });
 
   /* Uplift hero */
   setText('upliftAmount', (rossbyUplift >= 0 ? '+' : '') + fmt(rossbyUplift));
@@ -1864,24 +1786,6 @@ function setItemized(on) {
 document.getElementById('itemizeToggle').addEventListener('click', function() {
   setItemized(!overheadItemized);
   recalc();
-});
-
-/* ── Step tabs ── */
-function setStep(step) {
-  document.body.dataset.step = step;
-  document.querySelectorAll('.step-tab').forEach(function(btn) {
-    var active = btn.dataset.go === step;
-    btn.classList.toggle('active', active);
-    btn.setAttribute('aria-selected', active ? 'true' : 'false');
-  });
-}
-document.querySelectorAll('[data-go]').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    setStep(btn.dataset.go);
-    if (!btn.classList.contains('step-tab')) {
-      document.querySelector('.step-tabs').scrollIntoView({ behavior: 'smooth' });
-    }
-  });
 });
 
 /* Plain text inputs (firm name) */
