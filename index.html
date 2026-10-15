@@ -1181,7 +1181,7 @@
             <div class="pricing-line">
               <div class="pricing-label">
                 Data charges
-                <span class="pricing-sub"><span id="pricing_accts_count">300</span> accounts &times; $<span id="pricing_per_acct">5.00</span>/mo &times; 12</span>
+                <span class="pricing-sub"><span id="pricing_accts_count">250</span> accounts, tiered: <span id="pricing_bands">100 &times; $8.00 + 150 &times; $6.75</span> /mo &times; 12</span>
               </div>
               <div class="pricing-value" id="pricing_accts_total">$18,000</div>
             </div>
@@ -1196,7 +1196,7 @@
               <div class="pricing-label">Annual total</div>
               <div class="pricing-value" id="pricing_grand_total">$60,500</div>
             </div>
-            <p class="pricing-note">Data charges per account per month: 0&ndash;100 accounts $7.70 &middot; 101&ndash;500 $6.30 &middot; 501&ndash;1,300 $5.20 &middot; 1,301+ negotiated. Your account count sets the rate for all accounts. Additional advisors: $7,500 each (offices of 2&ndash;3 people), $6,000 each from 4 people.</p>
+            <p class="pricing-note">Data charges per account per month, tiered: accounts 1&ndash;100 $8.00 &middot; 101&ndash;500 $6.75 &middot; 501&ndash;1,300 $5.50 &middot; 1,301+ $5.00 (negotiated). Each rate applies only to the accounts inside its band. Additional advisors: $7,500 each (offices of 2&ndash;3 people), $6,000 each from 4 people.</p>
             <p class="pricing-note pricing-note-strong" id="pricing_negotiated" hidden>Pricing for 1,301+ accounts is negotiated. This estimate uses the $5.00 guide rate.</p>
           </div>
           <div class="pricing-col pricing-coverage">
@@ -1340,11 +1340,13 @@ function getDollarVal(id) {
    `from` values must go up row to row. */
 const ROSSBY_PRICING = {
   baseAccessFee: 25000,
-  /* $ per account per month, by account count */
+  /* $ per account per month. Graduated: each rate applies only to the
+     accounts inside its band (accounts 1-100 at the first rate, 101-500 at
+     the second, and so on). */
   dataCharges: [
-    { from: 0,    rate: 7.70 },
-    { from: 101,  rate: 6.30 },
-    { from: 501,  rate: 5.20 },
+    { from: 1,    rate: 8.00 },
+    { from: 101,  rate: 6.75 },
+    { from: 501,  rate: 5.50 },
     { from: 1301, rate: 5.00 }   // 1,301+ is negotiated; $5.00 is the guide rate
   ],
   negotiatedFrom: 1301,
@@ -1360,7 +1362,21 @@ function tierRate(tiers, n) {
   tiers.forEach(t => { if (n >= t.from) rate = t.rate; });
   return rate;
 }
-function rossbyPerAccountRate(a) { return tierRate(ROSSBY_PRICING.dataCharges, a); }
+/* Monthly data charge, band by band. Returns the total and each band used. */
+function dataChargeBands(accounts) {
+  const tiers = ROSSBY_PRICING.dataCharges;
+  const bands = [];
+  let monthly = 0;
+  tiers.forEach(function(t, i) {
+    const next = i + 1 < tiers.length ? tiers[i + 1].from : Infinity;
+    const count = Math.max(0, Math.min(accounts, next - 1) - t.from + 1);
+    if (count > 0) {
+      bands.push({ count: count, rate: t.rate });
+      monthly += count * t.rate;
+    }
+  });
+  return { monthly: monthly, bands: bands };
+}
 function additionalAdvisorFee(p) { return tierRate(ROSSBY_PRICING.additionalPersonFees, p); }
 
 /* ── Safe DOM setter ── */
@@ -1496,9 +1512,9 @@ function recalc() {
   /* ── With Rossby ── */
   const additional     = Math.max(people - 1, 0);
   const advisorRate    = additionalAdvisorFee(people);
-  const rRate          = rossbyPerAccountRate(accounts);
+  const dataCharge     = dataChargeBands(accounts);
   const baseFee        = ROSSBY_PRICING.baseAccessFee;
-  const perAcctAnnual  = accounts * rRate * 12;
+  const perAcctAnnual  = dataCharge.monthly * 12;
   const advisorPortion = additional * advisorRate;
   const rossbyPricing  = baseFee + perAcctAnnual + advisorPortion;
   const rossbyFixed    = totalFixed - coveredFixed;
@@ -1521,7 +1537,9 @@ function recalc() {
   setText('pricing_base', fmt(baseFee));
   document.getElementById('pricing_negotiated').hidden = accounts < ROSSBY_PRICING.negotiatedFrom;
   setText('pricing_accts_count', accounts.toLocaleString('en-US'));
-  setText('pricing_per_acct', rRate.toFixed(2));
+  setText('pricing_bands', dataCharge.bands.length
+    ? dataCharge.bands.map(b => b.count.toLocaleString('en-US') + ' \u00d7 $' + b.rate.toFixed(2)).join(' + ')
+    : 'none');
   setText('pricing_accts_total', fmt(perAcctAnnual));
   setText('pricing_advisors_count', additional.toLocaleString('en-US'));
   setText('pricing_advisor_fee', advisorRate.toLocaleString('en-US'));
