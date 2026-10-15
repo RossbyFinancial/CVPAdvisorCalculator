@@ -368,11 +368,6 @@
   .chart-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
   .chart-row:last-child { margin-bottom: 0; }
   .chart-label { width: 100px; font-size: 0.82rem; font-weight: 600; color: var(--ink-2); flex-shrink: 0; }
-  .chart-bar-wrap { flex: 1; height: 32px; background: var(--line-soft); border-radius: 8px; overflow: hidden; position: relative; }
-  .chart-bar { height: 100%; border-radius: 8px; transition: width 0.4s ease; min-width: 2px; }
-  .chart-bar.current { background: var(--ink-3); }
-  .chart-bar.rossby { background: linear-gradient(90deg, var(--brand-purple) 0%, var(--brand-magenta) 100%); }
-  .chart-bar.negative { background: var(--crit); }
   .chart-val { width: 110px; text-align: right; font-size: 0.9rem; font-weight: 700; font-variant-numeric: tabular-nums; flex-shrink: 0; color: var(--ink-1); }
 
   /* ── BUTTONS (pill style, brand-purple primary) ── */
@@ -678,7 +673,6 @@
   .pricing-card .card-head { color: var(--brand-purple); }
 
   /* Chart bar — drop magenta, use maritime navy -> purple */
-  .chart-bar.rossby { background: linear-gradient(90deg, var(--brand-navy) 0%, var(--brand-purple) 100%); }
 
   /* Results hero — recolor shadows to brand success / error */
   .results-hero { box-shadow: 0 1px 0 rgba(35,40,108,0.04), 0 12px 28px rgba(13,140,82,0.16); }
@@ -753,9 +747,6 @@
   .results-hero.negative .rh-amount  { color: var(--crit-dark); }
 
   /* ── Suggestion 1: "With Rossby" comparison bar → navy→gold ── */
-  .chart-bar.rossby {
-    background: linear-gradient(90deg, var(--brand-navy) 0%, var(--brand-gold) 100%);
-  }
 
   /* ── Suggestion 2: "With Rossby" card → gold accent ── */
   .compare-card.rossby {
@@ -1089,23 +1080,6 @@
         <div class="rh-sub" id="upliftSub"></div>
         <div class="rh-net" id="netLine"></div>
         <div class="rh-firm" id="firmNameDisplay"></div>
-      </div>
-    </div>
-
-    <!-- Profit Comparison Chart -->
-    <div class="full">
-      <div class="card chart-card">
-        <h3>Gross Profit Comparison</h3>
-        <div class="chart-row">
-          <div class="chart-label">Current</div>
-          <div class="chart-bar-wrap"><div class="chart-bar current" id="chartBarCurrent"></div></div>
-          <div class="chart-val" id="chartValCurrent"></div>
-        </div>
-        <div class="chart-row">
-          <div class="chart-label">With Rossby</div>
-          <div class="chart-bar-wrap"><div class="chart-bar rossby" id="chartBarRossby"></div></div>
-          <div class="chart-val" id="chartValRossby"></div>
-        </div>
       </div>
     </div>
 
@@ -1579,8 +1553,6 @@ function recalc() {
   document.getElementById('ctaEmail').href = 'mailto:setsail@rossbyfinancial.com?subject=' +
     encodeURIComponent('Advisor Profitability Analysis \u2013 ' + firm);
 
-  /* ── Chart ── */
-  drawChart(grossProfit, rossbyGP);
 }
 
 /* ── Revenue breakdown bar: cost segments + net, as a share of revenue ── */
@@ -1662,28 +1634,6 @@ function syncSliders() {
     if (document.activeElement === sl) return;
     sl.value = document.getElementById(sl.dataset.target).dataset.raw;
   });
-}
-
-/* ── Chart ── */
-function drawChart(currentProfit, rossbyProfit) {
-  const maxVal = Math.max(Math.abs(currentProfit), Math.abs(rossbyProfit), 1);
-  const currentPct = Math.abs(currentProfit) / maxVal * 100;
-  const rossbyPct  = Math.abs(rossbyProfit) / maxVal * 100;
-
-  const barCurrent = document.getElementById('chartBarCurrent');
-  const barRossby  = document.getElementById('chartBarRossby');
-
-  barCurrent.style.width = currentPct + '%';
-  barCurrent.className = 'chart-bar ' + (currentProfit >= 0 ? 'current' : 'negative');
-
-  barRossby.style.width = rossbyPct + '%';
-  barRossby.className = 'chart-bar ' + (rossbyProfit >= 0 ? 'rossby' : 'negative');
-
-  setText('chartValCurrent', fmt(currentProfit));
-  setText('chartValRossby', fmt(rossbyProfit));
-
-  document.getElementById('chartValCurrent').style.color = currentProfit >= 0 ? 'var(--text)' : 'var(--red)';
-  document.getElementById('chartValRossby').style.color  = rossbyProfit >= 0 ? 'var(--green-dark)' : 'var(--red)';
 }
 
 /* ── Reset ── */
